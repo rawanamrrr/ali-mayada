@@ -75,7 +75,14 @@ export default function HandwrittenMessage() {
     context.fillStyle = 'white';
     context.fillRect(0, 0, canvas.width, canvas.height);
 
+    // If there is no history yet, save the initial blank state
+    if (history.length === 0 && canvasRef.current) {
+      const dataUrl = canvasRef.current.toDataURL();
+      setHistory([dataUrl]);
+    }
+
     setCtx(context);
+    lastWidth.current = currentWidth; // Initialize lastWidth
     setCanvasSize(true); // Initial setup
 
     const handleResize = () => setCanvasSize(false); // Resize without clearing
@@ -395,11 +402,22 @@ export default function HandwrittenMessage() {
     ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-    setHistory([]);
+    
+    // Save the blank state to history so Undo works after Clear
+    const dataUrl = canvasRef.current.toDataURL();
+    setHistory([dataUrl]);
   };
 
   const undoLastStroke = () => {
-    if (!canvasRef.current || !ctx || history.length === 0) return;
+    if (!canvasRef.current || !ctx || history.length <= 1) {
+      if (history.length === 1) {
+        // Already at initial blank state, just clear to be sure
+        ctx?.clearRect(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+        ctx!.fillStyle = 'white';
+        ctx!.fillRect(0, 0, canvasRef.current!.width, canvasRef.current!.height);
+      }
+      return;
+    }
     
     // Remove the last state from history
     const newHistory = [...history];
@@ -411,14 +429,12 @@ export default function HandwrittenMessage() {
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
     
-    // If there's a previous state, restore it
-    if (newHistory.length > 0) {
-      const img = new Image();
-      img.onload = () => {
-        ctx.drawImage(img, 0, 0);
-      };
-      img.src = newHistory[newHistory.length - 1];
-    }
+    // Restore the previous state
+    const img = new window.Image();
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0);
+    };
+    img.src = newHistory[newHistory.length - 1];
   };
 
   const sendEmail = async (e: React.FormEvent) => {
