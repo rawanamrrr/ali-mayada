@@ -12,7 +12,21 @@ import { useLanguage } from "@/contexts/LanguageContext"
 import { Button } from "@/components/ui/button"
 import PhotoUploadSection from "@/components/photo-upload-section"
 import RSVPSection from "@/components/rsvp-section"
-import { Sparkles, Clock, MapPin, MessageSquare, Mail, Camera, Quote, Info } from "lucide-react"
+import { 
+  Heart, 
+  Music, 
+  Volume2, 
+  VolumeX, 
+  Sparkles, 
+  Clock, 
+  MapPin, 
+  Info, 
+  MessageSquare, 
+  Mail, 
+  Camera, 
+  Quote,
+  Calendar
+} from 'lucide-react'
 
 // Format date in Arabic or English
 const formatDate = (date: Date, locale: string) => {
@@ -437,12 +451,23 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
               </p>
             </motion.div>
 
-            <motion.p 
-              className="font-serif text-2xl md:text-3xl text-[#661314] mb-8"
+            <motion.div 
+              className="flex flex-col items-center gap-4 mb-8"
               variants={slideUp}
             >
-              {formattedDate}
-            </motion.p>
+              <div className="flex items-center gap-3 text-[#661314]">
+                <Calendar className="w-5 h-5 md:w-6 md:h-6 opacity-70" />
+                <span className="font-serif text-2xl md:text-3xl italic">
+                  {formattedDate}
+                </span>
+              </div>
+              <div className="flex items-center gap-3 text-[#661314]">
+                <Clock className="w-5 h-5 md:w-6 md:h-6 opacity-70" />
+                <span className="font-serif text-2xl md:text-3xl italic">
+                  {formattedTime}
+                </span>
+              </div>
+            </motion.div>
 
             <motion.div
               className="w-full rounded-xl overflow-hidden shadow-sm border border-[#661314]/10"
