@@ -85,6 +85,34 @@ export const translations = {
     en: 'until the big day',
     ar: 'حتى اليوم الكبير',
   },
+  timelineArrival: {
+    en: 'Arrival',
+    ar: 'الوصول',
+  },
+  timelineEntrance: {
+    en: 'Entrance',
+    ar: 'الدخول',
+  },
+  timelineParty: {
+    en: 'Party',
+    ar: 'الحفل',
+  },
+  timelineCuttingCake: {
+    en: 'Cutting cake',
+    ar: 'تقطيع التورتة',
+  },
+  timelineDinner: {
+    en: 'Dinner',
+    ar: 'العشاء',
+  },
+  timelineSecondEntrance: {
+    en: 'Second entrance',
+    ar: 'الدخلة الثانية',
+  },
+  timelineFinale: {
+    en: 'The finale',
+    ar: 'الختام',
+  },
   venueTitle: {
     en: 'Venue',
     ar: 'المكان',
@@ -106,7 +134,7 @@ export const translations = {
     ar: 'سجل الضيوف',
   },
   rsvpSectionTitle: {
-    en: 'RSVP',
+    en: 'Confirm Your Attendance',
     ar: 'تأكيد الحضور',
   },
   rsvpTitle: {
@@ -150,11 +178,11 @@ export const translations = {
     ar: 'حالة الحضور',
   },
   attendingOption: {
-    en: 'Attending',
+    en: 'Yes will be there',
     ar: 'سأحضر',
   },
   notAttendingOption: {
-    en: 'Not attending',
+    en: 'Unfortunately will not make it',
     ar: 'لن أتمكن من الحضور',
   },
   guestSingular: {
@@ -238,8 +266,8 @@ export const translations = {
     ar: 'اكتبوا لنا رسالة',
   },
   writeUsDescription: {
-    en: 'Leave us a handwritten note or message',
-    ar: 'اتركوا لنا رسالة بخط اليد',
+    en: 'Message for the couples',
+    ar: 'اتركوا لنا رسالة',
   },
   drawnMessage: {
     en: 'Drawn Message',
@@ -376,6 +404,10 @@ export const translations = {
   photosTitle: {
     en: 'Photos',
     ar: 'الصور',
+  },
+  optional: {
+    en: 'Optional',
+    ar: 'اختياري',
   },
   finalQuote: {
     en: '',

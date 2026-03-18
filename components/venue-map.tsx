@@ -21,7 +21,7 @@ export default function VenueMap() {
   }
 
   return (
-    <section className="w-full px-4 sm:px-6 py-8">
+    <section className="w-full px-4 sm:px-6 py-6">
       <div className="max-w-4xl mx-auto">
         <div className="relative group">
           <div className={`absolute -inset-1 bg-gradient-to-r from-[#661314]/20 via-[#661314]/10 to-[#661314]/20 rounded-3xl blur-lg opacity-50 group-hover:opacity-75 transition duration-500 ${isRTL ? 'rtl' : ''}`} />
@@ -80,7 +80,7 @@ export default function VenueMap() {
             </div>
           </div>
 
-          <div className="mt-6 text-center px-4">
+          <div className="mt-4 text-center px-4">
             <h3 className="text-xl sm:text-2xl font-serif font-medium text-foreground mb-2">
               {isRTL ? 'فندق هلنان فلسطين' : 'Helnan Palestine Hotel'}
             </h3>

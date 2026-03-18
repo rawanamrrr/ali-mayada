@@ -57,7 +57,7 @@ export default function Home() {
   useEffect(() => {
     if (mounted) {
       const img = new Image()
-      img.src = "/invitation-design.PNG"
+      img.src = "/invitation-design.jpg"
       img.onload = handleImageLoad
     }
   }, [mounted, handleImageLoad])

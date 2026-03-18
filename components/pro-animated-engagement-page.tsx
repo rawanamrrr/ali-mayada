@@ -201,22 +201,22 @@ const fastStaggerContainer: Variants = {
   }
 }
 
-type SectionDividerVariant = "reveal" | "countdown" | "venue" | "notes" | "guestbook" | "rsvp" | "photos" | "quote"
+type SectionDividerVariant = "reveal" | "countdown" | "timeline" | "venue" | "notes" | "guestbook" | "rsvp" | "quote"
 
-const SectionDivider = ({ variant, compact = false }: { variant: SectionDividerVariant, compact?: boolean }) => {
+const SectionDivider = ({ variant }: { variant: SectionDividerVariant }) => {
   const Icon =
     variant === "reveal" ? Sparkles :
     variant === "countdown" ? Clock :
+    variant === "timeline" ? Clock :
     variant === "venue" ? MapPin :
     variant === "notes" ? Info :
     variant === "guestbook" ? MessageSquare :
     variant === "rsvp" ? Mail :
-    variant === "photos" ? Camera :
     Quote
 
   return (
     <div className="bg-[#ebebeb]">
-      <div className={`max-w-5xl mx-auto px-4 ${compact ? 'py-5 md:py-7' : 'py-12 md:py-16'}`}>
+      <div className="max-w-5xl mx-auto px-4 py-4 md:py-6">
         <div className="flex items-center justify-center gap-4">
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#661314]/25 to-transparent" />
           <div className="relative w-7 h-7 flex items-center justify-center">
@@ -258,7 +258,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
 
     if (typeof window !== 'undefined') {
       const staticImg = new window.Image();
-      staticImg.src = "/invitation-design.PNG";
+      staticImg.src = "/invitation-design.jpg";
       staticImg.onload = () => {
         console.log('✅ Image preloaded and cached');
         setGifPreloaded(true);
@@ -302,7 +302,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
   }
 
   return (
-    <div className="min-h-screen bg-[#ebebeb] overflow-x-hidden pt-0">
+    <div className="min-h-[80vh] bg-[#ebebeb] overflow-x-hidden pt-0 pb-0">
       {/* Hero Section - Redesigned for exact match with VideoIntro container */}
       <motion.section 
         className="relative w-full h-[100dvh] overflow-hidden bg-black flex items-center justify-center pt-0"
@@ -314,7 +314,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
           <div className="relative w-full h-full flex items-center justify-center">
             <Image
               key="static-image"
-              src="/invitation-design.PNG"
+              src="/invitation-design.jpg"
               alt="Amr & Alaa Wedding Invitation"
               fill
               className="object-contain"
@@ -363,15 +363,15 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
       <SectionDivider variant="reveal" />
 
       {/* Scratch to Discover Section */}
-      <div className="bg-[#ebebeb]">
+      <div className="bg-[#ebebeb] py-4">
         <ScratchToDiscover />
       </div>
 
-      <SectionDivider variant="countdown" compact />
+      <SectionDivider variant="countdown" />
 
       {/* Countdown Section - Exact match to reference image */}
       <section 
-        className="relative py-12 px-4 md:py-16 overflow-hidden bg-[#ebebeb]"
+        className="relative py-4 px-4 md:py-6 overflow-hidden bg-[#ebebeb]"
       >
         <div className="relative max-w-6xl mx-auto text-center flex flex-col items-center">
           <h2 className="font-handwritten text-7xl md:text-9xl text-[#661314] mb-12 tracking-tight">
@@ -392,7 +392,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
 
       {/* Venue & RSVP Section - Redesigned to match reference */}
       <motion.section 
-        className="relative py-20 px-4 md:py-32 bg-[#ebebeb] overflow-hidden"
+        className="relative py-4 px-4 md:py-6 bg-[#ebebeb] overflow-hidden"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
@@ -400,12 +400,9 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
       >
         <div className="max-w-4xl mx-auto text-center flex flex-col items-center relative z-10">
           <motion.div 
-            className="mb-12 flex flex-col items-center"
+            className="mb-8 flex flex-col items-center"
             variants={fadeIn}
           >
-            <h2 className="font-handwritten text-7xl md:text-9xl text-[#661314] mb-12 tracking-tight">
-              {t('venueTitle')}
-            </h2>
             <p className="font-serif text-lg md:text-xl text-[#661314]/80 italic mt-4 uppercase tracking-[0.3em]">
               {t('venueSubtitle')}
             </p>
@@ -413,7 +410,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
 
           {/* Venue Details Box */}
           <motion.div 
-            className="w-full max-w-2xl bg-transparent border border-[#661314]/20 rounded-lg p-8 md:p-12 shadow-sm mb-12"
+            className="w-full max-w-2xl bg-transparent p-0 mb-12"
             variants={scaleIn}
           >
             {/* Venue Illustration/Image Inside the Box */}
@@ -456,21 +453,14 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
               variants={slideUp}
             >
               <div className="flex items-center gap-3 text-[#661314]">
-                <Calendar className="w-5 h-5 md:w-6 md:h-6 opacity-70" />
                 <span className="font-serif text-2xl md:text-3xl italic">
                   {formattedDate}
-                </span>
-              </div>
-              <div className="flex items-center gap-3 text-[#661314]">
-                <Clock className="w-5 h-5 md:w-6 md:h-6 opacity-70" />
-                <span className="font-serif text-2xl md:text-3xl italic">
-                  {formattedTime}
                 </span>
               </div>
             </motion.div>
 
             <motion.div
-              className="w-full rounded-xl overflow-hidden shadow-sm border border-[#661314]/10"
+              className="w-full rounded-xl overflow-hidden"
               variants={fadeIn}
             >
               <VenueMap />
@@ -478,25 +468,88 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
           </motion.div>
         </div>
       </motion.section>
-      <SectionDivider variant="guestbook" />
 
-      {/* Message Section */}
-      <div className="bg-[#ebebeb]">
-        <HandwrittenMessage />
-      </div>
+      <SectionDivider variant="timeline" />
+ 
+      {/* Timeline Section */}
+      <section className="relative py-20 px-0 md:py-32 overflow-hidden bg-[#fdfcf8]">
+        <div className="max-w-4xl mx-auto relative z-10 px-4 flex flex-col items-center">
+          {/* Day Programme Title */}
+          <div className="text-center mb-16">
+            <h2 className="font-handwritten text-5xl md:text-7xl text-[#661314] mb-4">
+              Day Program
+            </h2>
+            <p className="font-serif text-[#661314]/60 tracking-widest text-sm md:text-base uppercase">
+              {formattedDate}
+            </p>
+          </div>
 
+          <div className="relative w-full max-w-2xl">
+            {/* Center Vertical Line */}
+            <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-[#661314]/30 -translate-x-1/2" />
+
+            {[
+              { time: "04:00", label: t('timelineArrival') },
+              { time: "04:30", label: t('timelineEntrance') },
+              { time: "06:00", label: t('timelineParty') },
+              { time: "08:00", label: t('timelineCuttingCake') },
+              { time: "09:00", label: t('timelineDinner') },
+              { time: "10:00", label: t('timelineSecondEntrance') },
+              { time: "12:00", label: t('timelineFinale') },
+            ].map((item, idx) => {
+              const isRTL = language === 'ar'
+              const isLeft = (idx % 2 === 1) !== isRTL 
+              return (
+                <div key={`${item.time}-${item.label}`} className="relative grid grid-cols-2 py-4 md:py-6">
+                  {/* Horizontal tick mark on the line */}
+                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3 md:w-4 h-[1px] bg-[#661314]/30" />
+                  
+                  <div className={isLeft ? "pr-8 md:pr-12 text-right flex flex-col items-end justify-center" : "opacity-0 select-none pointer-events-none"}>
+                    {isLeft && (
+                      <>
+                        <div className="font-serif text-sm md:text-base font-medium tracking-[0.1em] text-[#661314]">
+                          {item.time}
+                        </div>
+                        <div className="font-serif text-[9px] md:text-[10px] tracking-[0.2em] text-[#661314]/40 uppercase mt-0.5">
+                          {item.label}
+                        </div>
+                      </>
+                    )}
+                  </div>
+
+                  <div className={!isLeft ? "pl-8 md:pl-12 text-left flex flex-col items-start justify-center" : "opacity-0 select-none pointer-events-none"}>
+                    {!isLeft && (
+                      <>
+                        <div className="font-serif text-sm md:text-base font-medium tracking-[0.1em] text-[#661314]">
+                          {item.time}
+                        </div>
+                        <div className="font-serif text-[9px] md:text-[10px] tracking-[0.2em] text-[#661314]/40 uppercase mt-0.5">
+                          {item.label}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+
+          {/* Bottom Illustration */}
+          <div className="mt-12 md:mt-16 w-full max-w-[200px] md:max-w-[280px] aspect-square relative mx-auto opacity-70">
+            <Image
+              src="/timeline-img.png"
+              alt="Timeline Decoration"
+              fill
+              className="object-contain"
+            />
+          </div>
+        </div>
+      </section>
       <SectionDivider variant="rsvp" />
 
-      {/* RSVP Section */}
-      <div className="bg-[#ebebeb]">
+      {/* Unified RSVP & Message Section */}
+      <div className="bg-[#ebebeb] py-0">
         <RSVPSection />
-      </div>
-
-      <SectionDivider variant="photos" />
-
-      {/* Photo Upload Section */}
-      <div className="bg-[#ebebeb]">
-        <PhotoUploadSection />
       </div>
 
       {t('finalQuote').trim().length > 0 && (
@@ -505,7 +558,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
           
           {/* Final Quote Section */}
           <motion.section 
-            className="relative py-24 text-center overflow-hidden bg-[#ebebeb]"
+            className="relative py-0 text-center overflow-hidden bg-[#ebebeb]"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -555,7 +608,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
       <SectionDivider variant="notes" />
 
       <motion.section
-        className="relative py-20 px-4 md:py-32 bg-[#ebebeb] overflow-hidden"
+        className="relative py-4 px-4 md:py-6 bg-[#ebebeb] overflow-hidden"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}

@@ -21,7 +21,7 @@ export default function EngagementPage() {
       <section className="relative flex items-center justify-center px-4 py-8 md:py-12">
         <div className="w-full max-w-md mx-auto">
           <Image
-            src="/invitation-design.PNG"
+            src="/invitation-design.jpg"
             alt="Amr & Alaa wedding Invitation"
             width={768}
             height={1365}

@@ -1,7 +1,6 @@
 "use client"
 
 import { useRef, useState } from "react"
-import { Hand } from "lucide-react"
 import { motion } from "framer-motion"
 import { useTranslation } from "@/lib/translations"
 
@@ -57,30 +56,17 @@ export default function VideoIntro({ onComplete, onSkip }: VideoIntroProps) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
         >
-          <motion.div 
-            className="w-14 h-14 rounded-full border-2 border-white/50 flex items-center justify-center mb-3 bg-black/20 backdrop-blur-sm"
-            animate={{ 
-              scale: [1, 1.1, 1],
-              borderColor: ["rgba(255,255,255,0.5)", "rgba(255,255,255,0.8)", "rgba(255,255,255,0.5)"]
+          <motion.img
+            src="/letters.png"
+            alt={t('tapToContinue')}
+            className="w-45 max-w-[85vw] h-auto drop-shadow-[0_6px_18px_rgba(0,0,0,0.65)]"
+            animate={{
+              opacity: [0.85, 1, 0.85],
+              scale: [1, 1.06, 1],
+              y: [0, -10, 0],
             }}
-            transition={{ 
-              duration: 2, 
-              repeat: Infinity, 
-              ease: "easeInOut" 
-            }}
-          >
-            <motion.div
-              animate={{ y: [0, -3, 0] }}
-              transition={{ 
-                duration: 1.5, 
-                repeat: Infinity, 
-                ease: "easeInOut" 
-              }}
-            >
-              <Hand className="w-5 h-5 text-white" />
-            </motion.div>
-          </motion.div>
-          <span className="text-white/80 text-xs font-medium tracking-wide">{t('tapToContinue')}</span>
+            transition={{ duration: 2.0, repeat: Infinity, ease: "easeInOut" }}
+          />
         </motion.div>
       )}
     </div>

@@ -38,7 +38,7 @@ const nextConfig = {
         ],
       },
       {
-        source: '/invitation-design.png',
+        source: '/invitation-design.jpg',
         headers: [
           {
             key: 'Cache-Control',

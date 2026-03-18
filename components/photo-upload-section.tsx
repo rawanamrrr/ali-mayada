@@ -83,7 +83,7 @@ export default function PhotoUploadSection() {
 
   return (
     <motion.section 
-      className="relative py-20 px-4 md:py-32 bg-[#ebebeb] overflow-hidden"
+      className="relative py-8 px-4 md:py-12 bg-[#ebebeb] overflow-hidden"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}
@@ -91,10 +91,10 @@ export default function PhotoUploadSection() {
     >
       <div className="relative max-w-6xl mx-auto text-center flex flex-col items-center">
         <motion.div 
-          className="mb-12 flex flex-col items-center"
+          className="mb-8 flex flex-col items-center"
           variants={fadeIn}
         >
-          <h2 className="font-handwritten text-7xl md:text-9xl text-[#661314] mb-12 tracking-tight">
+          <h2 className="font-handwritten text-7xl md:text-9xl text-[#661314] mb-4 tracking-tight">
             {t('photosTitle')}
           </h2>
           <p className="font-serif text-lg md:text-xl text-[#661314]/80 italic mt-4">

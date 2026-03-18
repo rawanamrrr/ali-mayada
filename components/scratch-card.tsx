@@ -25,6 +25,9 @@ const ScratchCard: React.FC<ScratchCardProps> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [isRevealed, setIsRevealed] = useState(false)
   const [isDrawing, setIsDrawing] = useState(false)
+  const [lastPoint, setLastPoint] = useState<{ x: number, y: number } | null>(null)
+  const scratchCounterRef = useRef(0)
+  const hasCompletedRef = useRef(false)
 
   const initCanvas = useCallback(() => {
     const canvas = canvasRef.current
@@ -103,93 +106,133 @@ const ScratchCard: React.FC<ScratchCardProps> = ({
     initCanvas()
   }, [initCanvas])
 
-  const getFilledInPixels = (ctx: CanvasRenderingContext2D, stride: number = 32) => {
+  const getFilledInPixels = useCallback((ctx: CanvasRenderingContext2D, stride: number = 32) => {
     const pixels = ctx.getImageData(0, 0, width, height)
     const pdata = pixels.data
     const l = pdata.length
-    const total = l / stride
+    const total = (width * height) / stride
     let count = 0
 
-    for (let i = 0; i < l; i += stride) {
-      if (pdata[i + 3] === 0) {
+    // Check alpha channel for erased pixels
+    for (let i = 0; i < l; i += stride * 4) {
+      if (pdata[i + 3] < 150) { // More sensitive check for scratched area
         count++
       }
     }
 
     return (count / total) * 100
+  }, [width, height])
+
+  const completeReveal = useCallback(() => {
+    if (hasCompletedRef.current) return
+    hasCompletedRef.current = true
+    setIsRevealed(true)
+    setIsDrawing(false)
+    if (onComplete) onComplete()
+  }, [onComplete])
+
+  const getEventPoint = (e: React.MouseEvent | React.TouchEvent) => {
+    const canvas = canvasRef.current
+    if (!canvas) return null
+    const rect = canvas.getBoundingClientRect()
+    
+    // Calculate the scale between CSS pixels and Canvas pixels
+    const scaleX = canvas.width / rect.width
+    const scaleY = canvas.height / rect.height
+
+    let clientX, clientY
+    if ('touches' in e) {
+      if (e.touches.length === 0) return null
+      clientX = e.touches[0].clientX
+      clientY = e.touches[0].clientY
+    } else {
+      clientX = (e as React.MouseEvent).clientX
+      clientY = (e as React.MouseEvent).clientY
+    }
+
+    return {
+      x: (clientX - rect.left) * scaleX,
+      y: (clientY - rect.top) * scaleY,
+    }
   }
 
-  const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
-    if (isRevealed) return
-
+  const scratchAt = useCallback((x: number, y: number) => {
     const canvas = canvasRef.current
-    if (!canvas) return
+    if (!canvas || isRevealed) return
     const ctx = canvas.getContext('2d', { willReadFrequently: true })
     if (!ctx) return
 
-    const rect = canvas.getBoundingClientRect()
-    const scaleX = canvas.width / rect.width
-    const scaleY = canvas.height / rect.height
-    let x, y
+    ctx.globalCompositeOperation = 'destination-out'
+    ctx.lineJoin = 'round'
+    ctx.lineCap = 'round'
+    ctx.lineWidth = brushSize
 
-    if ('touches' in e) {
-      if (e.cancelable) e.preventDefault()
-      x = (e.touches[0].clientX - rect.left) * scaleX
-      y = (e.touches[0].clientY - rect.top) * scaleY
-      if (!isDrawing) setIsDrawing(true)
+    ctx.beginPath()
+    if (lastPoint) {
+      ctx.moveTo(lastPoint.x, lastPoint.y)
+      ctx.lineTo(x, y)
+      ctx.stroke()
     } else {
-      if (!isDrawing) return
-      x = (e.clientX - rect.left) * scaleX
-      y = (e.clientY - rect.top) * scaleY
+      // For the first touch/click, draw a circle to ensure immediate feedback
+      ctx.arc(x, y, brushSize / 2, 0, Math.PI * 2)
+      ctx.fill()
     }
 
-    ctx.globalCompositeOperation = 'destination-out'
-    
-    const scratchPattern = [
-      [0, 0], [20, 0], [-20, 0], [0, 20], [0, -20],
-      [15, 15], [-15, 15], [15, -15], [-15, -15],
-      [30, 0], [-30, 0], [0, 30], [0, -30],
-      [20, 20], [-20, 20], [20, -20], [-20, -20]
-    ]
-    
-    scratchPattern.forEach(([ox, oy]) => {
-      ctx.beginPath()
-      ctx.arc(x + ox, y + oy, brushSize * 1.5, 0, Math.PI * 2)
-      ctx.fill()
-    })
+    setLastPoint({ x, y })
 
-    // Reveal immediately on ANY scratch movement
-    if (!isRevealed) {
-      setIsRevealed(true)
-      // Call onComplete immediately
-      if (onComplete) {
-        onComplete()
+    // Check percentage every 5 moves to stay responsive but performant
+    scratchCounterRef.current++
+    if (scratchCounterRef.current % 5 === 0) {
+      const scratched = getFilledInPixels(ctx)
+      if (scratched >= finishPercent) {
+        completeReveal()
       }
     }
+  }, [brushSize, completeReveal, finishPercent, isRevealed, lastPoint, getFilledInPixels])
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (isRevealed) return
+    setIsDrawing(true)
+    const p = getEventPoint(e)
+    if (p) {
+      setLastPoint(null) // Reset last point for new stroke
+      scratchAt(p.x, p.y)
+    }
+  }
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDrawing || isRevealed) return
+    const p = getEventPoint(e)
+    if (p) scratchAt(p.x, p.y)
+  }
+
+  const handleMouseUp = () => {
+    setIsDrawing(false)
+    setLastPoint(null)
   }
 
   const handleTouchStart = (e: React.TouchEvent) => {
     if (isRevealed) return
+    // Only prevent default if we're actually scratching to allow page scroll otherwise
     setIsDrawing(true)
-    
-    // Immediate reveal on touch start
-    setIsRevealed(true)
-    if (onComplete) {
-      onComplete()
+    const p = getEventPoint(e)
+    if (p) {
+      setLastPoint(null) // Reset last point for new stroke
+      scratchAt(p.x, p.y)
     }
-    
-    handleMove(e)
   }
 
-  const handlePointerDown = () => {
-    if (isRevealed) return
-    setIsDrawing(true)
-    
-    // Immediate reveal on mouse/pointer down
-    setIsRevealed(true)
-    if (onComplete) {
-      onComplete()
-    }
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDrawing || isRevealed) return
+    // Prevent scrolling while scratching
+    if (e.cancelable) e.preventDefault()
+    const p = getEventPoint(e)
+    if (p) scratchAt(p.x, p.y)
+  }
+
+  const handleTouchEnd = () => {
+    setIsDrawing(false)
+    setLastPoint(null)
   }
 
   return (
@@ -228,19 +271,14 @@ const ScratchCard: React.FC<ScratchCardProps> = ({
         height={height}
         className={`absolute inset-0 w-full h-full cursor-pointer transition-opacity duration-700 ${isRevealed ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
         style={{ touchAction: 'none' }}
-        onMouseDown={handlePointerDown}
-        onMouseUp={() => setIsDrawing(false)}
-        onMouseLeave={() => setIsDrawing(false)}
-        onMouseMove={handleMove}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        onMouseMove={handleMouseMove}
         onTouchStart={handleTouchStart}
-        onTouchEnd={() => setIsDrawing(false)}
-        onTouchMove={handleMove}
-        onClick={() => {
-          if (!isRevealed) {
-            setIsRevealed(true);
-            if (onComplete) onComplete();
-          }
-        }}
+        onTouchEnd={handleTouchEnd}
+        onTouchCancel={handleTouchEnd}
+        onTouchMove={handleTouchMove}
       />
       </div>
     </div>
