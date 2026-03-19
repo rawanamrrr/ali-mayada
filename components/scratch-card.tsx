@@ -163,6 +163,8 @@ const ScratchCard: React.FC<ScratchCardProps> = ({
     if (!ctx) return
 
     ctx.globalCompositeOperation = 'destination-out'
+    ctx.fillStyle = 'rgba(0,0,0,1)'
+    ctx.strokeStyle = 'rgba(0,0,0,1)'
     ctx.lineJoin = 'round'
     ctx.lineCap = 'round'
     ctx.lineWidth = brushSize

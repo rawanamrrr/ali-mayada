@@ -474,10 +474,10 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
       {/* Timeline Section */}
       <section className="relative py-20 px-0 md:py-32 overflow-hidden bg-[#fdfcf8]">
         <div className="max-w-4xl mx-auto relative z-10 px-4 flex flex-col items-center">
-          {/* Day Programme Title */}
+          {/* Timeline Title */}
           <div className="text-center mb-16">
             <h2 className="font-handwritten text-5xl md:text-7xl text-[#661314] mb-4">
-              Day Program
+              Timeline
             </h2>
             <p className="font-serif text-[#661314]/60 tracking-widest text-sm md:text-base uppercase">
               {formattedDate}
@@ -489,13 +489,13 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
             <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-[#661314]/30 -translate-x-1/2" />
 
             {[
-              { time: "04:00", label: t('timelineArrival') },
-              { time: "04:30", label: t('timelineEntrance') },
-              { time: "06:00", label: t('timelineParty') },
-              { time: "08:00", label: t('timelineCuttingCake') },
-              { time: "09:00", label: t('timelineDinner') },
-              { time: "10:00", label: t('timelineSecondEntrance') },
-              { time: "12:00", label: t('timelineFinale') },
+              { time: "04:00", label: t('timelineArrival'), icon: "/icons/arrival.png" },
+              { time: "04:30", label: t('timelineEntrance'), icon: "/icons/entrance.png" },
+              { time: "06:00", label: t('timelineParty'), icon: "/icons/party.png" },
+              { time: "08:00", label: t('timelineCuttingCake'), icon: "/icons/cake.png" },
+              { time: "09:00", label: t('timelineDinner'), icon: "/icons/dinner.png" },
+              { time: "10:00", label: t('timelineSecondEntrance'), icon: "/icons/second-entrance.png" },
+              { time: "12:00", label: t('timelineFinale'), icon: "/icons/finale.png" },
             ].map((item, idx) => {
               const isRTL = language === 'ar'
               const isLeft = (idx % 2 === 1) !== isRTL 
@@ -504,8 +504,8 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                   {/* Horizontal tick mark on the line */}
                   <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3 md:w-4 h-[1px] bg-[#661314]/30" />
                   
-                  <div className={isLeft ? "pr-8 md:pr-12 text-right flex flex-col items-end justify-center" : "opacity-0 select-none pointer-events-none"}>
-                    {isLeft && (
+                  <div className="pr-8 md:pr-12 text-right flex flex-col items-end justify-center">
+                    {isLeft ? (
                       <>
                         <div className="font-serif text-sm md:text-base font-medium tracking-[0.1em] text-[#661314]">
                           {item.time}
@@ -514,11 +514,20 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                           {item.label}
                         </div>
                       </>
+                    ) : (
+                      <div className="relative w-24 h-24 md:w-32 md:h-32 opacity-75">
+                        <img 
+                          src={item.icon} 
+                          alt={item.label} 
+                          className="w-full h-full object-contain grayscale-[20%] sepia-[30%] hue-rotate-[-10deg] opacity-80" 
+                          onError={(e) => { e.currentTarget.style.display = 'none' }} 
+                        />
+                      </div>
                     )}
                   </div>
 
-                  <div className={!isLeft ? "pl-8 md:pl-12 text-left flex flex-col items-start justify-center" : "opacity-0 select-none pointer-events-none"}>
-                    {!isLeft && (
+                  <div className="pl-8 md:pl-12 text-left flex flex-col items-start justify-center">
+                    {!isLeft ? (
                       <>
                         <div className="font-serif text-sm md:text-base font-medium tracking-[0.1em] text-[#661314]">
                           {item.time}
@@ -527,6 +536,15 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                           {item.label}
                         </div>
                       </>
+                    ) : (
+                      <div className="relative w-24 h-24 md:w-32 md:h-32 opacity-75">
+                        <img 
+                          src={item.icon} 
+                          alt={item.label} 
+                          className="w-full h-full object-contain grayscale-[20%] sepia-[30%] hue-rotate-[-10deg] opacity-80" 
+                          onError={(e) => { e.currentTarget.style.display = 'none' }} 
+                        />
+                      </div>
                     )}
                   </div>
                 </div>
