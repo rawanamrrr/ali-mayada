@@ -18,18 +18,18 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://amr-alaa.digitivaa.com"),
+  metadataBase: new URL("https://ali-mayada.digitivaa.com"),
   title: "Ali & Mayada - Wedding Celebration",
   description: "Join us in celebrating Ali & Mayada's wedding",
   generator: "Digitiva",
   openGraph: {
-    url: "https://amr-alaa.digitivaa.com/",
+    url: "https://ali-mayada.digitivaa.com/",
     type: "website",
     title: "Ali & Mayada - Wedding Celebration",
     description: "Join us in celebrating Ali & Mayada's wedding",
     images: [
       {
-        url: "https://amr-alaa.digitivaa.com/invitation-design.jpg",
+        url: "https://ali-mayada.digitivaa.com/invitation-design.jpg",
         width: 768,
         height: 1365,
         alt: "Ali & Mayada Wedding Invitation",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Ali & Mayada - Wedding Celebration",
     description: "Join us in celebrating Ali & Mayada's wedding",
-    images: ["https://amr-alaa.digitivaa.com/invitation-design.jpg"],
+    images: ["https://ali-mayada.digitivaa.com/invitation-design.jpg"],
   },
   icons: {
     icon: "/invitation-design.jpg",
@@ -57,13 +57,13 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* ✅ Open Graph tags for Facebook & WhatsApp previews */}
-        <meta property="og:url" content="https://amr-alaa.digitivaa.com/" />
+        <meta property="og:url" content="https://ali-mayada.digitivaa.com/" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Ali & Mayada - Wedding Celebration" />
         <meta property="og:description" content="Join us in celebrating Ali & Mayada's wedding" />
         <meta
           property="og:image"
-          content="https://amr-alaa.digitivaa.com/invitation-design.jpg"
+          content="https://ali-mayada.digitivaa.com/invitation-design.jpg"
         />
         <meta property="og:image:width" content="768" />
         <meta property="og:image:height" content="1365" />
@@ -74,7 +74,7 @@ export default function RootLayout({
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Ali & Mayada - Wedding Celebration" />
         <meta name="twitter:description" content="Join us in celebrating Ali & Mayada's wedding" />
-        <meta name="twitter:image" content="https://amr-alaa.digitivaa.com/invitation-design.jpg" />
+        <meta name="twitter:image" content="https://ali-mayada.digitivaa.com/invitation-design.jpg" />
 
         {/* Preload PNG with high priority to eliminate lag on Netlify */}
         <link
