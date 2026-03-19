@@ -82,7 +82,7 @@ export const translations = {
     ar: 'العد التنازلي',
   },
   countdownSubtitle: {
-    en: 'until the big day',
+    en: 'Until the big day',
     ar: 'حتى اليوم الكبير',
   },
   timelineArrival: {

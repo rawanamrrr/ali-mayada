@@ -229,7 +229,7 @@ export default function RSVPSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="font-handwritten text-7xl md:text-9xl text-[#661314] mb-4 tracking-tight">
+          <h2 className="font-handwritten text-5xl md:text-7xl text-[#661314] mb-4 tracking-tight">
             {t('rsvpSectionTitle')}
           </h2>
           <p className="font-serif text-lg md:text-xl text-[#661314]/80 italic mt-4">

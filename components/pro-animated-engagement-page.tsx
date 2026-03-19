@@ -382,7 +382,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
             <CountdownTimer targetDate={new Date("2026-06-06T18:00:00")} />
           </div>
 
-          <p className="font-serif text-lg md:text-xl text-[#661314]/80 italic mt-4">
+          <p className="font-handwritten text-3xl md:text-4xl text-[#661314]/80 mt-4 leading-[1.2]">
             {t('countdownSubtitle')}
           </p>
         </div>
@@ -507,15 +507,15 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                   <div className="pr-8 md:pr-12 text-right flex flex-col items-end justify-center">
                     {isLeft ? (
                       <>
-                        <div className="font-serif text-sm md:text-base font-medium tracking-[0.1em] text-[#661314]">
+                        <div className="font-serif text-sm md:text-base font-bold tracking-[0.1em] text-[#661314]">
                           {item.time}
                         </div>
-                        <div className="font-serif text-[9px] md:text-[10px] tracking-[0.2em] text-[#661314]/40 uppercase mt-0.5">
+                        <div className="font-serif text-[9px] md:text-[10px] tracking-[0.2em] text-[#661314]/75 font-bold uppercase mt-0.5">
                           {item.label}
                         </div>
                       </>
                     ) : (
-                      <div className="relative w-24 h-24 md:w-32 md:h-32 opacity-75">
+                      <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-75">
                         <img 
                           src={item.icon} 
                           alt={item.label} 
@@ -529,15 +529,15 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                   <div className="pl-8 md:pl-12 text-left flex flex-col items-start justify-center">
                     {!isLeft ? (
                       <>
-                        <div className="font-serif text-sm md:text-base font-medium tracking-[0.1em] text-[#661314]">
+                        <div className="font-serif text-sm md:text-base font-bold tracking-[0.1em] text-[#661314]">
                           {item.time}
                         </div>
-                        <div className="font-serif text-[9px] md:text-[10px] tracking-[0.2em] text-[#661314]/40 uppercase mt-0.5">
+                        <div className="font-serif text-[9px] md:text-[10px] tracking-[0.2em] text-[#661314]/75 font-bold uppercase mt-0.5">
                           {item.label}
                         </div>
                       </>
                     ) : (
-                      <div className="relative w-24 h-24 md:w-32 md:h-32 opacity-75">
+                      <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-75">
                         <img 
                           src={item.icon} 
                           alt={item.label} 

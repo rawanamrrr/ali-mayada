@@ -61,12 +61,12 @@ const ScratchToDiscover = () => {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-        <div className="mb-4 flex flex-col items-center opacity-100">
+        <div className="mb-5 flex flex-col items-center opacity-100">
           
-          <h2 className="font-handwritten text-7xl md:text-9xl text-[#661314] mb-4 tracking-tight">
+          <h2 className="font-handwritten text-7xl md:text-9xl text-[#661314] mb-4 tracking-tight leading-[1.15] pt-3">
             {t('revealTitle')}
           </h2>
-          <p className="text-[#661314] font-serif tracking-[0.3em] text-[10px] md:text-xs uppercase font-medium">
+          <p className="text-[#661314] font-serif tracking-[0.3em] text-[12px] md:text-xs uppercase font-medium">
             {t('revealInstruction')}
           </p>
         </div>
@@ -110,10 +110,12 @@ const ScratchToDiscover = () => {
                 duration: 0.05,
                 ease: "linear"
               }}
-              className="mt-8 relative"
+              className="mt-8 relative overflow-visible"
             >
-              <h3 className="font-serif text-1xl md:text-5xl text-[#661314] drop-shadow-sm whitespace-nowrap py-4">
-                {t('weAreGettingMarried')}
+              <h3 className="font-serif text-2xl md:text-5xl text-[#661314] drop-shadow-sm whitespace-nowrap leading-[1.4] pt-6 pb-5">
+                <span className="inline-block translate-y-[2px]">
+                  {t('weAreGettingMarried')}
+                </span>
               </h3>
             </motion.div>
           )}
