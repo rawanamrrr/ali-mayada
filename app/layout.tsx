@@ -8,7 +8,6 @@ import { Suspense } from "react"
 import { RomanticAudio } from "@/components/romantic-audio"
 import { LanguageProvider } from "@/contexts/LanguageContext"
 import { LanguageToggle } from "@/components/language-toggle"
-import { Footer } from "@/components/footer"
 import "./globals.css"
 
 const playfair = Playfair_Display({
@@ -125,7 +124,6 @@ export default function RootLayout({
             <LanguageToggle />
             {children}
             <RomanticAudio />
-            <Footer />
           </Suspense>
           <Analytics />
         </LanguageProvider>

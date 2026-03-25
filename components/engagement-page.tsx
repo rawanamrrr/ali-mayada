@@ -120,8 +120,8 @@ export default function EngagementPage() {
 
 
       <footer className="relative py-16 text-center border-t border-accent/10">
-        <div className="max-w-2xl mx-auto px-4 space-y-4">
-          <p className="font-serif text-2xl md:text-3xl text-foreground italic">We can't wait to celebrate with you</p>
+        <div className="max-w-2xl mx-auto px-4 space-y-4 overflow-hidden">
+          <p className="font-serif whitespace-nowrap text-[6vw] sm:text-2xl md:text-3xl text-foreground italic">We can't wait to celebrate with you</p>
           <div className="flex items-center justify-center gap-2 text-accent">
             <div className="w-8 h-px bg-accent/30" />
             <span className="text-2xl">♥</span>

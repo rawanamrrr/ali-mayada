@@ -12,18 +12,19 @@ import { useLanguage } from "@/contexts/LanguageContext"
 import { Button } from "@/components/ui/button"
 import PhotoUploadSection from "@/components/photo-upload-section"
 import RSVPSection from "@/components/rsvp-section"
-import { 
-  Heart, 
-  Music, 
-  Volume2, 
-  VolumeX, 
-  Sparkles, 
-  Clock, 
-  MapPin, 
-  Info, 
-  MessageSquare, 
-  Mail, 
-  Camera, 
+import { Footer } from "@/components/footer"
+import {
+  Heart,
+  Music,
+  Volume2,
+  VolumeX,
+  Sparkles,
+  Clock,
+  MapPin,
+  Info,
+  MessageSquare,
+  Mail,
+  Camera,
   Quote,
   Calendar
 } from 'lucide-react'
@@ -51,7 +52,7 @@ const fadeIn: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { 
+    transition: {
       duration: 0.8,
       ease: [0.22, 1, 0.36, 1] as const
     }
@@ -89,8 +90,8 @@ const slideFromLeft: Variants = {
     x: 0,
     opacity: 1,
     scale: 1,
-    transition: { 
-      duration: 1.2, 
+    transition: {
+      duration: 1.2,
       ease: [0.16, 1, 0.3, 1] as const,
       type: "spring",
       stiffness: 80,
@@ -105,8 +106,8 @@ const slideFromRight: Variants = {
     x: 0,
     opacity: 1,
     scale: 1,
-    transition: { 
-      duration: 1.2, 
+    transition: {
+      duration: 1.2,
       ease: [0.16, 1, 0.3, 1] as const,
       type: "spring",
       stiffness: 80,
@@ -123,8 +124,8 @@ const flyFromLeft: Variants = {
     opacity: 1,
     scale: 1,
     rotate: 0,
-    transition: { 
-      duration: 1.4, 
+    transition: {
+      duration: 1.4,
       ease: [0.16, 1, 0.3, 1] as const,
       type: "spring",
       stiffness: 60,
@@ -141,8 +142,8 @@ const flyFromRight: Variants = {
     opacity: 1,
     scale: 1,
     rotate: 0,
-    transition: { 
-      duration: 1.4, 
+    transition: {
+      duration: 1.4,
       ease: [0.16, 1, 0.3, 1] as const,
       type: "spring",
       stiffness: 60,
@@ -158,8 +159,8 @@ const floatFromLeft: Variants = {
     x: 0,
     opacity: 1,
     scale: 1,
-    transition: { 
-      duration: 1.5, 
+    transition: {
+      duration: 1.5,
       ease: [0.16, 1, 0.3, 1] as const,
       type: "spring",
       stiffness: 70,
@@ -175,8 +176,8 @@ const floatFromRight: Variants = {
     x: 0,
     opacity: 1,
     scale: 1,
-    transition: { 
-      duration: 1.5, 
+    transition: {
+      duration: 1.5,
       ease: [0.16, 1, 0.3, 1] as const,
       type: "spring",
       stiffness: 70,
@@ -206,13 +207,13 @@ type SectionDividerVariant = "reveal" | "countdown" | "timeline" | "venue" | "no
 const SectionDivider = ({ variant }: { variant: SectionDividerVariant }) => {
   const Icon =
     variant === "reveal" ? Sparkles :
-    variant === "countdown" ? Clock :
-    variant === "timeline" ? Clock :
-    variant === "venue" ? MapPin :
-    variant === "notes" ? Info :
-    variant === "guestbook" ? MessageSquare :
-    variant === "rsvp" ? Mail :
-    Quote
+      variant === "countdown" ? Clock :
+        variant === "timeline" ? Clock :
+          variant === "venue" ? MapPin :
+            variant === "notes" ? Info :
+              variant === "guestbook" ? MessageSquare :
+                variant === "rsvp" ? Mail :
+                  Quote
 
   return (
     <div className="bg-transparent">
@@ -241,11 +242,15 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
   const { language } = useLanguage()
   const [mounted, setMounted] = useState(false)
   const [imageLoaded, setImageLoaded] = useState(false)
+  const [revealUnlocked, setRevealUnlocked] = useState(false)
+  const revealSectionRef = useRef<HTMLDivElement>(null)
+  const [revealSectionInView, setRevealSectionInView] = useState(false)
   const [gifHasPlayed, setGifHasPlayed] = useState(false)
   const [gifPreloaded, setGifPreloaded] = useState(false)
   const gifRef = useRef<HTMLImageElement>(null)
   const gifTimerRef = useRef<NodeJS.Timeout | null>(null)
   const { scrollYProgress } = useScroll()
+
   const pathY1 = useTransform(scrollYProgress, [0, 0.5], [0, 20])
   const pathY2 = useTransform(scrollYProgress, [0, 0.5], [0, 40])
 
@@ -283,6 +288,33 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
     }
   }, [introFinished]);
 
+  useEffect(() => {
+    const el = revealSectionRef.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0]
+        setRevealSectionInView(Boolean(entry?.isIntersecting))
+      },
+      { threshold: 0.2 }
+    )
+
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!revealSectionInView) return
+    if (revealUnlocked) return
+
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = prevOverflow
+    }
+  }, [revealSectionInView, revealUnlocked])
+
   const handleImageLoad = () => {
     setImageLoaded(true)
     onImageLoad?.()
@@ -304,8 +336,8 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
   return (
     <div className="min-h-[80vh] bg-transparent overflow-visible pt-0 pb-0">
       {/* Hero Section - Redesigned for exact match with VideoIntro container */}
-      <motion.section 
-        className="relative w-full h-[100dvh] overflow-hidden bg-black"
+      <motion.section
+        className="relative w-full h-[100svh] overflow-hidden bg-black"
         initial="hidden"
         animate="visible"
         variants={fastStaggerContainer}
@@ -325,7 +357,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
               sizes="100vw"
             />
           </div>
-          
+
           {/* Minimal loading state */}
           {!imageLoaded && (
             <div className="absolute inset-0 bg-black flex items-center justify-center z-10">
@@ -337,7 +369,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
           )}
 
           {/* Scroll Down Indicator */}
-          <motion.div 
+          <motion.div
             className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20 cursor-pointer"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: introFinished ? 1 : 0, y: 0 }}
@@ -363,376 +395,381 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
       <SectionDivider variant="reveal" />
 
       {/* Scratch to Discover Section */}
-      <div className="bg-transparent py-4">
-        <ScratchToDiscover />
+      <div ref={revealSectionRef} className="bg-transparent pt-4 pb-2">
+        <ScratchToDiscover onAllRevealed={() => setRevealUnlocked(true)} />
       </div>
 
-      <SectionDivider variant="countdown" />
-
-      {/* Countdown Section - Exact match to reference image */}
-      <section 
-        className="relative py-4 px-4 md:py-6 overflow-visible bg-transparent"
-      >
-        <div className="relative max-w-6xl mx-auto text-center flex flex-col items-center">
-          <h2 className="font-handwritten text-7xl md:text-9xl text-[#661314] mb-12 tracking-tight">
-            {t('countdownTitle')}
-          </h2>
-
-          <div className="mb-12">
-            <CountdownTimer targetDate={new Date("2026-06-06T18:00:00")} />
-          </div>
-
-          <p className="font-handwritten text-3xl md:text-4xl text-[#661314]/80 mt-4 leading-[1.2]">
-            {t('countdownSubtitle')}
-          </p>
-        </div>
-      </section>
-
-      <SectionDivider variant="venue" />
-
-      {/* Venue & RSVP Section - Redesigned to match reference */}
-      <motion.section 
-        className="relative py-4 px-4 md:py-6 bg-transparent overflow-visible"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        variants={fastStaggerContainer}
-      >
-        <div className="max-w-4xl mx-auto text-center flex flex-col items-center relative z-10">
-          <motion.div 
-            className="mb-8 flex flex-col items-center"
-            variants={fadeIn}
-          >
-            <p className="font-serif text-lg md:text-xl text-[#661314]/80 italic mt-4 uppercase tracking-[0.3em]">
-              {t('venueSubtitle')}
-            </p>
-          </motion.div>
-
-          {/* Venue Details Box */}
-          <motion.div 
-            className="w-full max-w-2xl bg-transparent p-0 mb-12"
-            variants={scaleIn}
-          >
-            {/* Venue Illustration/Image Inside the Box */}
-            <motion.div 
-              className="relative w-full mb-12"
-              variants={fadeIn}
-            >
-              <div className="relative aspect-[4/3] w-full overflow-visible rounded-lg">
-                <Image
-                  src="/map-pic.png"
-                  alt="Venue Illustration"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-            </motion.div>
-
-            <motion.h2 
-              className="font-serif text-4xl md:text-6xl text-[#661314] mb-6 tracking-tight"
-              variants={slideUp}
-            >
-              Helnan Palestine Hotel
-            </motion.h2>
-
-            <motion.div 
-              className="flex flex-col items-center gap-1 mb-10"
-              variants={fadeIn}
-            >
-              <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-[#661314]/70 font-medium">
-                {t('venueCity')}
-              </p>
-              <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-[#661314]/70 font-medium">
-                {t('venueCountry')}
-              </p>
-            </motion.div>
-
-            <motion.div 
-              className="flex flex-col items-center gap-4 mb-8"
-              variants={slideUp}
-            >
-              <div className="flex items-center gap-3 text-[#661314]">
-                <span className="font-serif text-2xl md:text-3xl italic">
-                  {formattedDate}
-                </span>
-              </div>
-            </motion.div>
-
-            <motion.div
-              className="w-full rounded-xl overflow-visible"
-              variants={fadeIn}
-            >
-              <VenueMap />
-            </motion.div>
-          </motion.div>
-        </div>
-      </motion.section>
-
-      <SectionDivider variant="timeline" />
- 
-      {/* Timeline Section */}
-      <section className="relative py-20 px-0 md:py-32 overflow-visible bg-transparent">
-        <div className="max-w-4xl mx-auto relative z-10 px-4 flex flex-col items-center">
-          {/* Timeline Title */}
-          <div className="text-center mb-16">
-            <h2 className="font-handwritten text-5xl md:text-7xl text-[#661314] mb-4">
-              Timeline
-            </h2>
-            <p className="font-serif text-[#661314]/60 tracking-widest text-sm md:text-base uppercase">
-              {formattedDate}
-            </p>
-          </div>
-
-          <div className="relative w-full max-w-2xl">
-            {/* Center Vertical Line */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-[#661314]/30 -translate-x-1/2" />
-
-            {[
-              { time: "05:00", label: t('timelineArrival'), icon: "/icons/arrival.png" },
-              { time: "05:30", label: t('timelineEntrance'), icon: "/icons/entrance.png" },
-              { time: "06:00", label: t('timelineParty'), icon: "/icons/party.png" },
-              { time: "08:00", label: t('timelineCuttingCake'), icon: "/icons/cake.png" },
-              { time: "09:00", label: t('timelineDinner'), icon: "/icons/dinner.png" },
-              { time: "10:00", label: t('timelineSecondEntrance'), icon: "/icons/second-entrance.png" },
-              { time: "01:00", label: t('timelineFinale'), icon: "/icons/finale.png" },
-            ].map((item, idx) => {
-              const isRTL = language === 'ar'
-              const isLeft = (idx % 2 === 1) !== isRTL 
-              return (
-                <div key={`${item.time}-${item.label}`} className="relative grid grid-cols-2 py-4 md:py-6">
-                  {/* Horizontal tick mark on the line */}
-                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3 md:w-4 h-[1px] bg-[#661314]/30" />
-                  
-                  <div className="pr-8 md:pr-12 text-right flex flex-col items-end justify-center">
-                    {isLeft ? (
-                      <>
-                        <div className="font-serif text-sm md:text-base font-bold tracking-[0.1em] text-[#661314]">
-                          {item.time}
-                        </div>
-                        <div className="font-serif text-[9px] md:text-[10px] tracking-[0.2em] text-[#661314]/75 font-bold uppercase mt-0.5">
-                          {item.label}
-                        </div>
-                      </>
-                    ) : (
-                      <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-75">
-                        <img 
-                          src={item.icon} 
-                          alt={item.label} 
-                          className="w-full h-full object-contain grayscale-[20%] sepia-[30%] hue-rotate-[-10deg] opacity-80" 
-                          onError={(e) => { e.currentTarget.style.display = 'none' }} 
-                        />
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="pl-8 md:pl-12 text-left flex flex-col items-start justify-center">
-                    {!isLeft ? (
-                      <>
-                        <div className="font-serif text-sm md:text-base font-bold tracking-[0.1em] text-[#661314]">
-                          {item.time}
-                        </div>
-                        <div className="font-serif text-[9px] md:text-[10px] tracking-[0.2em] text-[#661314]/75 font-bold uppercase mt-0.5">
-                          {item.label}
-                        </div>
-                      </>
-                    ) : (
-                      <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-75">
-                        <img 
-                          src={item.icon} 
-                          alt={item.label} 
-                          className="w-full h-full object-contain grayscale-[20%] sepia-[30%] hue-rotate-[-10deg] opacity-80" 
-                          onError={(e) => { e.currentTarget.style.display = 'none' }} 
-                        />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-
-          {/* Bottom Illustration */}
-          <div className="mt-12 md:mt-16 w-full max-w-[200px] md:max-w-[280px] aspect-square relative mx-auto opacity-70">
-            <Image
-              src="/timeline-img.png"
-              alt="Timeline Decoration"
-              fill
-              className="object-contain"
-            />
-          </div>
-        </div>
-      </section>
-      <SectionDivider variant="rsvp" />
-
-      {/* Unified RSVP & Message Section */}
-      <div className="bg-transparent py-0">
-        <RSVPSection />
-      </div>
-
-      {t('finalQuote').trim().length > 0 && (
+      {revealUnlocked && (
         <>
-          <SectionDivider variant="quote" />
-          
-          {/* Final Quote Section */}
-          <motion.section 
-            className="relative py-0 text-center overflow-visible bg-transparent"
+          <SectionDivider variant="countdown" />
+
+          {/* Countdown Section - Exact match to reference image */}
+          <section
+            className="relative py-4 px-4 md:py-6 overflow-visible bg-transparent"
+          >
+            <div className="relative max-w-6xl mx-auto text-center flex flex-col items-center">
+              <h2 className="font-handwritten text-7xl md:text-9xl text-[#661314] mb-12 tracking-tight">
+                {t('countdownTitle')}
+              </h2>
+
+              <div className="mb-12">
+                <CountdownTimer targetDate={new Date("2026-06-06T18:00:00")} />
+              </div>
+
+              <p className="font-handwritten text-3xl md:text-4xl text-[#661314]/80 mt-4 leading-[1.2]">
+                {t('countdownSubtitle')}
+              </p>
+            </div>
+          </section>
+
+          <SectionDivider variant="venue" />
+
+          {/* Venue & RSVP Section - Redesigned to match reference */}
+          <motion.section
+            className="relative py-4 px-4 md:py-6 bg-transparent overflow-visible"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={fastStaggerContainer}
           >
-            <div className="max-w-4xl mx-auto px-4">
-              <motion.div 
-                className="flex items-center justify-center gap-4 mb-12"
+            <div className="max-w-4xl mx-auto text-center flex flex-col items-center relative z-10">
+              <motion.div
+                className="mb-8 flex flex-col items-center"
                 variants={fadeIn}
               >
-                <div className="w-16 h-px bg-gradient-to-r from-transparent to-[#661314]" />
-                <motion.span 
-                  className="text-2xl text-[#661314]"
-                  animate={{ scale: [1, 1.2, 1], rotate: [0, 10, -10, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  
-                </motion.span>
-                <div className="w-16 h-px bg-gradient-to-l from-transparent to-[#661314]" />
+                <p className="font-serif text-lg md:text-xl text-[#661314]/80 italic mt-4 uppercase tracking-[0.3em]">
+                  {t('venueSubtitle')}
+                </p>
               </motion.div>
-              
-              <motion.p 
-                className="font-luxury text-3xl md:text-4xl lg:text-5xl text-[#661314] leading-relaxed italic"
+
+              {/* Venue Details Box */}
+              <motion.div
+                className="w-full max-w-2xl bg-transparent p-0 mb-12"
                 variants={scaleIn}
               >
-                "{t('finalQuote')}"
-              </motion.p>
+                {/* Venue Illustration/Image Inside the Box */}
+                <motion.div
+                  className="relative w-full mb-12"
+                  variants={fadeIn}
+                >
+                  <div className="relative aspect-[4/3] w-full overflow-visible rounded-lg">
+                    <Image
+                      src="/map-pic.png"
+                      alt="Venue Illustration"
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
+                </motion.div>
 
-              <motion.div 
-                className="mt-12 flex justify-center gap-2"
-                variants={fadeIn}
-              >
-                {[1, 2, 3].map((i) => (
-                  <motion.div
-                    key={i}
-                    className="w-2 h-2 rounded-full bg-[#661314]/40"
-                    animate={{ opacity: [0.4, 1, 0.4] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
-                  />
-                ))}
+                <motion.h2
+                  className="font-serif text-4xl md:text-6xl text-[#661314] mb-6 tracking-tight"
+                  variants={slideUp}
+                >
+                  Helnan Palestine Hotel
+                </motion.h2>
+
+                <motion.div
+                  className="flex flex-col items-center gap-1 mb-10"
+                  variants={fadeIn}
+                >
+                  <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-[#661314]/70 font-medium">
+                    {t('venueCity')}
+                  </p>
+                  <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-[#661314]/70 font-medium">
+                    {t('venueCountry')}
+                  </p>
+                </motion.div>
+
+                <motion.div
+                  className="flex flex-col items-center gap-4 mb-8"
+                  variants={slideUp}
+                >
+                  <div className="flex items-center gap-3 text-[#661314]">
+                    <span className="font-serif text-2xl md:text-3xl italic">
+                      {formattedDate}
+                    </span>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  className="w-full rounded-xl overflow-visible"
+                  variants={fadeIn}
+                >
+                  <VenueMap />
+                </motion.div>
               </motion.div>
             </div>
           </motion.section>
-        </>
-      )}
 
-      <SectionDivider variant="notes" />
+          <SectionDivider variant="timeline" />
 
-      <motion.section
-        className="relative py-4 px-4 md:py-6 bg-transparent overflow-visible"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        variants={fastStaggerContainer}
-      >
-        <div className="max-w-4xl mx-auto text-center flex flex-col items-center relative z-10">
-          <motion.div
-            className="mb-12 flex flex-col items-center"
-            variants={fadeIn}
-          >
-            <div className="h-px w-40 bg-gradient-to-r from-transparent via-[#661314]/25 to-transparent" />
-          </motion.div>
+          {/* Timeline Section */}
+          <section className="relative py-20 px-0 md:py-32 overflow-visible bg-transparent">
+            <div className="max-w-4xl mx-auto relative z-10 px-4 flex flex-col items-center">
+              {/* Timeline Title */}
+              <div className="text-center mb-16">
+                <h2 className="font-handwritten text-5xl md:text-7xl text-[#661314] mb-4">
+                  Timeline
+                </h2>
+                <p className="font-serif text-[#661314]/60 tracking-widest text-sm md:text-base uppercase">
+                  {formattedDate}
+                </p>
+              </div>
 
-          <motion.div
-            className="relative w-full max-w-[520px]"
-            variants={scaleIn}
-          >
-            <div className="relative w-full aspect-[3/4] md:aspect-[3/4]">
-              <Image
-                src="/notes-pic.png"
-                alt="Notes Frame"
-                fill
-                className="object-contain"
-              />
+              <div className="relative w-full max-w-2xl">
+                {/* Center Vertical Line */}
+                <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-[#661314]/30 -translate-x-1/2" />
 
-              <div className="absolute inset-0 flex flex-col px-10 md:px-16 py-12 md:py-16">
-                <div className="text-center mt-6 md:mt-5">
-                  <p className="text-[14px] md:text-xs uppercase tracking-[0.55em] text-[#661314]/75 font-large">
-                    {t('importantNotesTitle')}
-                  </p>
-                  <div className="mt-5 w-24 h-px bg-gradient-to-r from-transparent via-[#661314]/30 to-transparent mx-auto" />
-                </div>
+                {[
+                  { time: "04:00", label: t('timelineArrival'), icon: "/icons/arrival.png" },
+                  { time: "05:00", label: t('timelineEntrance'), icon: "/icons/entrance.png" },
+                  { time: "06:00", label: t('timelineParty'), icon: "/icons/party.png" },
+                  { time: "08:00", label: t('timelineCuttingCake'), icon: "/icons/cake.png" },
+                  { time: "09:00", label: t('timelineDinner'), icon: "/icons/dinner.png" },
+                  { time: "10:00", label: t('timelineSecondEntrance'), icon: "/icons/second-entrance.png" },
+                  { time: "12:00", label: t('timelineFinale'), icon: "/icons/finale.png" },
+                ].map((item, idx) => {
+                  const isRTL = language === 'ar'
+                  const isLeft = (idx % 2 === 1) !== isRTL
+                  return (
+                    <div key={`${item.time}-${item.label}`} className="relative grid grid-cols-2 py-4 md:py-6">
+                      {/* Horizontal tick mark on the line */}
+                      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3 md:w-4 h-[1px] bg-[#661314]/30" />
 
-                <div className="mt-8 flex-1 flex flex-col justify-center gap-8 text-center">
-                  <div className="flex flex-col items-center">
-                    <div className="w-4 h-4 relative mb-4">
-                      <div className="absolute inset-0 rotate-45 border border-[#661314]/35 bg-transparent rounded-[2px]" />
-                      <div className="absolute inset-0 rotate-45 bg-[#661314]/10 blur-[2px] rounded-[2px]" />
+                      <div className="pr-8 md:pr-12 text-right flex flex-col items-end justify-center">
+                        {isLeft ? (
+                          <>
+                            <div className="font-serif text-sm md:text-base font-bold tracking-[0.1em] text-[#661314]">
+                              {item.time}
+                            </div>
+                            <div className="font-serif text-[9px] md:text-[10px] tracking-[0.2em] text-[#661314]/75 font-bold uppercase mt-0.5">
+                              {item.label}
+                            </div>
+                          </>
+                        ) : (
+                          <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-75">
+                            <img
+                              src={item.icon}
+                              alt={item.label}
+                              className="w-full h-full object-contain grayscale-[20%] sepia-[30%] hue-rotate-[-10deg] opacity-80"
+                              onError={(e) => { e.currentTarget.style.display = 'none' }}
+                            />
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="pl-8 md:pl-12 text-left flex flex-col items-start justify-center">
+                        {!isLeft ? (
+                          <>
+                            <div className="font-serif text-sm md:text-base font-bold tracking-[0.1em] text-[#661314]">
+                              {item.time}
+                            </div>
+                            <div className="font-serif text-[9px] md:text-[10px] tracking-[0.2em] text-[#661314]/75 font-bold uppercase mt-0.5">
+                              {item.label}
+                            </div>
+                          </>
+                        ) : (
+                          <div className="relative w-16 h-16 md:w-20 md:h-20 opacity-75">
+                            <img
+                              src={item.icon}
+                              alt={item.label}
+                              className="w-full h-full object-contain grayscale-[20%] sepia-[30%] hue-rotate-[-10deg] opacity-80"
+                              onError={(e) => { e.currentTarget.style.display = 'none' }}
+                            />
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <p className="font-serif text-[13px] md:text-base text-[#661314]/85 italic leading-relaxed max-w-[32ch]">
-                      {t('kidsNotAllowed')}
-                    </p>
-                  </div>
+                  )
+                })}
+              </div>
 
-                  <div className="w-28 h-px bg-gradient-to-r from-transparent via-[#661314]/15 to-transparent mx-auto" />
-
-                  <div className="flex flex-col items-center">
-                    <div className="w-4 h-4 relative mb-4">
-                      <div className="absolute inset-0 rotate-45 border border-[#661314]/35 bg-transparent rounded-[2px]" />
-                      <div className="absolute inset-0 rotate-45 bg-[#661314]/10 blur-[2px] rounded-[2px]" />
-                    </div>
-                    <p className="font-serif text-[12px] md:text-sm text-[#661314]/85 leading-snug max-w-[46ch]">
-                      {t('parkGarageNote')}
-                    </p>
-                  </div>
-                </div>
+              {/* Bottom Illustration */}
+              <div className="mt-12 md:mt-16 w-full max-w-[200px] md:max-w-[280px] aspect-square relative mx-auto opacity-70">
+                <Image
+                  src="/timeline-img.png"
+                  alt="Timeline Decoration"
+                  fill
+                  className="object-contain"
+                />
               </div>
             </div>
-          </motion.div>
-        </div>
-      </motion.section>
-      
-      {/* Footer */}
-      <motion.footer 
-        className="relative py-24 text-center bg-transparent"
-        variants={fadeIn}
-      >
-        <div className="max-w-3xl mx-auto px-4">
-          <motion.p 
-            className="font-luxury text-3xl md:text-4xl text-[#661314] mb-8 italic leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+          </section>
+          <SectionDivider variant="rsvp" />
+
+          {/* Unified RSVP & Message Section */}
+          <div className="bg-transparent py-0">
+            <RSVPSection />
+          </div>
+
+          {t('finalQuote').trim().length > 0 && (
+            <>
+              <SectionDivider variant="quote" />
+
+              {/* Final Quote Section */}
+              <motion.section
+                className="relative py-0 text-center overflow-visible bg-transparent"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                variants={fastStaggerContainer}
+              >
+                <div className="max-w-4xl mx-auto px-4">
+                  <motion.div
+                    className="flex items-center justify-center gap-4 mb-12"
+                    variants={fadeIn}
+                  >
+                    <div className="w-16 h-px bg-gradient-to-r from-transparent to-[#661314]" />
+                    <motion.span
+                      className="text-2xl text-[#661314]"
+                      animate={{ scale: [1, 1.2, 1], rotate: [0, 10, -10, 0] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                    >
+
+                    </motion.span>
+                    <div className="w-16 h-px bg-gradient-to-l from-transparent to-[#661314]" />
+                  </motion.div>
+
+                  <motion.p
+                    className="font-luxury text-3xl md:text-4xl lg:text-5xl text-[#661314] leading-relaxed italic"
+                    variants={scaleIn}
+                  >
+                    "{t('finalQuote')}"
+                  </motion.p>
+
+                  <motion.div
+                    className="mt-12 flex justify-center gap-2"
+                    variants={fadeIn}
+                  >
+                    {[1, 2, 3].map((i) => (
+                      <motion.div
+                        key={i}
+                        className="w-2 h-2 rounded-full bg-[#661314]/40"
+                        animate={{ opacity: [0.4, 1, 0.4] }}
+                        transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
+                      />
+                    ))}
+                  </motion.div>
+                </div>
+              </motion.section>
+            </>
+          )}
+
+          <SectionDivider variant="notes" />
+
+          <motion.section
+            className="relative py-4 px-4 md:py-6 bg-transparent overflow-visible"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fastStaggerContainer}
           >
-            {t('footerMessage')}
-          </motion.p>
-          <div className="flex items-center justify-center gap-6 mb-8">
-            <div className="w-24 h-px bg-gradient-to-r from-transparent via-[#661314] to-[#661314]" />
-            <motion.span 
-              className="text-3xl text-[#661314] drop-shadow-lg"
-              animate={{ scale: [1, 1.15, 1] }}
-              transition={{ 
-                duration: 2, 
-                repeat: Infinity, 
-                ease: "easeInOut" 
-              }}
-              style={{ fontFamily: 'Arial, sans-serif' }}
-            >
-              ♥
-            </motion.span>
-            <div className="w-24 h-px bg-gradient-to-l from-transparent via-[#661314] to-[#661314]" />
-          </div>
-          <div className="flex items-center justify-center gap-3 opacity-60">
-            <svg className="w-5 h-5 text-[#661314]" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-            </svg>
-            <svg className="w-4 h-4 text-[#661314]" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-            </svg>
-            <svg className="w-5 h-5 text-[#661314]" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-            </svg>
-          </div>
-        </div>
-      </motion.footer>
+            <div className="max-w-4xl mx-auto text-center flex flex-col items-center relative z-10">
+              <motion.div
+                className="mb-12 flex flex-col items-center"
+                variants={fadeIn}
+              >
+                <div className="h-px w-40 bg-gradient-to-r from-transparent via-[#661314]/25 to-transparent" />
+              </motion.div>
+
+              <motion.div
+                className="relative w-full max-w-[520px]"
+                variants={scaleIn}
+              >
+                <div className="relative w-full aspect-[3/4] md:aspect-[3/4]">
+                  <Image
+                    src="/notes-pic.png"
+                    alt="Notes Frame"
+                    fill
+                    className="object-contain"
+                  />
+
+                  <div className="absolute inset-0 flex flex-col px-10 md:px-16 py-12 md:py-16">
+                    <div className="text-center mt-6 md:mt-5">
+                      <p className="text-[14px] md:text-xs uppercase tracking-[0.55em] text-[#661314]/75 font-large">
+                        {t('importantNotesTitle')}
+                      </p>
+                      <div className="mt-5 w-24 h-px bg-gradient-to-r from-transparent via-[#661314]/30 to-transparent mx-auto" />
+                    </div>
+
+                    <div className="mt-8 flex-1 flex flex-col justify-center gap-8 text-center">
+                      <div className="flex flex-col items-center">
+                        <div className="w-4 h-4 relative mb-4">
+                          <div className="absolute inset-0 rotate-45 border border-[#661314]/35 bg-transparent rounded-[2px]" />
+                          <div className="absolute inset-0 rotate-45 bg-[#661314]/10 blur-[2px] rounded-[2px]" />
+                        </div>
+                        <p className="font-serif text-[13px] md:text-base text-[#661314]/85 italic leading-relaxed max-w-[32ch]">
+                          {t('kidsNotAllowed')}
+                        </p>
+                      </div>
+
+                      <div className="w-28 h-px bg-gradient-to-r from-transparent via-[#661314]/15 to-transparent mx-auto" />
+
+                      <div className="flex flex-col items-center">
+                        <div className="w-4 h-4 relative mb-4">
+                          <div className="absolute inset-0 rotate-45 border border-[#661314]/35 bg-transparent rounded-[2px]" />
+                          <div className="absolute inset-0 rotate-45 bg-[#661314]/10 blur-[2px] rounded-[2px]" />
+                        </div>
+                        <p className="font-serif text-[12px] md:text-sm text-[#661314]/85 leading-snug max-w-[46ch]">
+                          {t('parkGarageNote')}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </motion.section>
+
+          {/* Footer */}
+          <motion.footer
+            className="relative py-24 text-center bg-transparent"
+            variants={fadeIn}
+          >
+            <div className="max-w-3xl mx-auto px-4">
+              <motion.p
+                className="font-luxury whitespace-nowrap text-[5.5vw] sm:text-3xl md:text-4xl text-[#661314] mb-8 italic leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                {t('footerMessage')}
+              </motion.p>
+              <div className="flex items-center justify-center gap-6 mb-8">
+                <div className="w-24 h-px bg-gradient-to-r from-transparent via-[#661314] to-[#661314]" />
+                <motion.span
+                  className="text-3xl text-[#661314] drop-shadow-lg"
+                  animate={{ scale: [1, 1.15, 1] }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                  style={{ fontFamily: 'Arial, sans-serif' }}
+                >
+                  ♥
+                </motion.span>
+                <div className="w-24 h-px bg-gradient-to-l from-transparent via-[#661314] to-[#661314]" />
+              </div>
+              <div className="flex items-center justify-center gap-3 opacity-60">
+                <svg className="w-5 h-5 text-[#661314]" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                </svg>
+                <svg className="w-4 h-4 text-[#661314]" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                </svg>
+                <svg className="w-5 h-5 text-[#661314]" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                </svg>
+              </div>
+            </div>
+          </motion.footer>
+          <Footer />
+        </>
+      )}
     </div>
   )
 }

@@ -75,7 +75,7 @@ export const translations = {
   },
   weAreGettingMarried: {
     en: "We're Getting Married!",
-    ar: 'نحن نتزوج!',
+    ar: 'نحن نتزوج',
   },
   countdownTitle: {
     en: 'Countdown',

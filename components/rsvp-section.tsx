@@ -9,7 +9,7 @@ export default function RSVPSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [name, setName] = useState('')
   const [attending, setAttending] = useState<'yes' | 'no' | ''>('')
-  const [guests, setGuests] = useState('1')
+  const [guests, setGuests] = useState('')
   const [guestNames, setGuestNames] = useState<string[]>([''])
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [message, setMessage] = useState({ text: '', type: '' as 'success' | 'error' | 'info' | '' })
@@ -241,7 +241,7 @@ export default function RSVPSection() {
 
       if (data.success) {
         setMessage({ text: t('rsvpSuccess'), type: 'success' })
-        setName(''); setAttending(''); setGuests('1'); setGuestNames(['']); setWrittenText(''); clearCanvas()
+        setName(''); setAttending(''); setGuests('2'); setGuestNames(['']); setWrittenText(''); clearCanvas()
       } else {
         throw new Error(data.message)
       }
@@ -316,7 +316,7 @@ export default function RSVPSection() {
                     onChange={(e) => handleGuestsChange(e.target.value)}
                     className="w-full px-4 py-3 bg-transparent border border-[#661314]/30 rounded-lg font-serif outline-none"
                   >
-                    {[1,2,3,4,5].map(n => <option key={n} value={n}>{n} {n === 1 ? t('guestSingular') : t('guestPlural')}</option>)}
+                    {[1,2].map(n => <option key={n} value={n}>{n} {n === 1 ? t('guestSingular') : t('guestPlural')}</option>)}
                   </select>
                 </div>
                 {guestNames.map((gn, i) => (
