@@ -26,6 +26,7 @@ const ScratchToDiscover = () => {
         
         // Custom shapes to match the image: dark red circles and rectangles
         const darkRed = '#661314'
+        const white = '#ffffff'
         const shapes = ['circle', 'square']
         
         const interval: any = setInterval(function() {
@@ -39,7 +40,7 @@ const ScratchToDiscover = () => {
             startVelocity: 30,
             spread: 360,
             origin: { x: Math.random(), y: Math.random() * 0.5 },
-            colors: [darkRed],
+            colors: [darkRed, white],
             shapes: shapes as any,
             scalar: 1.2, // Slightly larger particles
             drift: 0,
@@ -53,7 +54,7 @@ const ScratchToDiscover = () => {
   }, [])
 
   return (
-    <div className="bg-[#ebebeb] overflow-x-hidden pt-0 pb-4">
+    <div className="bg-transparent overflow-visible pt-0 pb-4">
       {/* Ultra-luxury background elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#661314]/5 rounded-full blur-[120px] animate-pulse" />
@@ -74,7 +75,7 @@ const ScratchToDiscover = () => {
         <div className="flex flex-row items-center justify-center gap-6 md:gap-12">
           {/* Day */}
           <div className="flex flex-col items-center gap-2">
-            <ScratchCard width={100} height={100} onComplete={() => handleComplete(0)} shimmerColor="#dedad2" brushSize={45}>
+            <ScratchCard width={100} height={100} onComplete={() => handleComplete(0)} shimmerColor="#dedad2" brushSize={10}>
               <div className="text-center">
                 <span className="text-2xl md:text-4xl font-bold text-[#661314]">06</span>
               </div>
@@ -83,7 +84,7 @@ const ScratchToDiscover = () => {
 
           {/* Month */}
           <div className="flex flex-col items-center gap-2">
-            <ScratchCard width={100} height={100} onComplete={() => handleComplete(1)} shimmerColor="#dedad2" brushSize={45}>
+            <ScratchCard width={100} height={100} onComplete={() => handleComplete(1)} shimmerColor="#dedad2" brushSize={10}>
               <div className="text-center">
                 <span className="text-2xl md:text-4xl font-bold text-[#661314]">{t('revealMonthValue')}</span>
               </div>
@@ -92,7 +93,7 @@ const ScratchToDiscover = () => {
 
           {/* Year */}
           <div className="flex flex-col items-center gap-2">
-            <ScratchCard width={100} height={100} onComplete={() => handleComplete(2)} shimmerColor="#dedad2" brushSize={45}>
+            <ScratchCard width={100} height={100} onComplete={() => handleComplete(2)} shimmerColor="#dedad2" brushSize={10}>
               <div className="text-center">
                 <span className="text-2xl md:text-4xl font-bold text-[#661314]">2026</span>
               </div>
@@ -112,7 +113,7 @@ const ScratchToDiscover = () => {
               }}
               className="mt-8 relative overflow-visible"
             >
-              <h3 className="font-serif text-2xl md:text-5xl text-[#661314] drop-shadow-sm whitespace-nowrap leading-[1.4] pt-6 pb-5">
+              <h3 className="font-serif text-3xl md:text-5xl text-[#661314] drop-shadow-sm whitespace-nowrap leading-[1.4] pt-6 pb-5">
                 <span className="inline-block translate-y-[2px]">
                   {t('weAreGettingMarried')}
                 </span>

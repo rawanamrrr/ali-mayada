@@ -176,22 +176,57 @@
   * {
     @apply border-border outline-ring/50;
   }
+  
+  html, body {
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html {
+    background-color: transparent;
+  }
+  
   body {
-    background-color: #ebebeb !important;
     @apply text-foreground;
+    min-height: 100dvh;
+    background-color: transparent;
+  }
+  
+  /* Fixed background layer for mobile Safari compatibility */
+  html::before {
+    content: '';
+    position: fixed;
+    top: -50px;
+    left: -50px;
+    right: -50px;
+    bottom: -50px;
+    background-image: url('/bg.JPG');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -9999;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    pointer-events: none;
   }
 
-  p, span, div {
-    font-weight: 400;
+  p, span, div, a, button, input, label, section, li, h1, h2, h3, h4, h5, h6 {
+    font-weight: 700 !important;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Great Vibes', cursive !important;
-    font-weight: 400 !important;
+  /* Make lucide icons and other SVG icons bold by increasing stroke width */
+  svg {
+    stroke-width: 3px !important;
+  }
+  
+  /* Ensure all Lucide icons are bold */
+  .lucide {
+    stroke-width: 3px !important;
   }
 
   section {
-    background-color: #ebebeb !important;
+    background-color: transparent !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }

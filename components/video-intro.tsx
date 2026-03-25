@@ -13,6 +13,10 @@ export default function VideoIntro({ onComplete, onSkip }: VideoIntroProps) {
   const t = useTranslation()
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isVideoReady, setIsVideoReady] = useState(false)
+  const [isLettersReady, setIsLettersReady] = useState(false)
+
+  const assetsReady = isVideoReady && isLettersReady
 
   const handleVideoClick = () => {
     const video = videoRef.current;
@@ -33,11 +37,13 @@ export default function VideoIntro({ onComplete, onSkip }: VideoIntroProps) {
       >
         <video 
           ref={videoRef}
-          className="h-auto max-h-full w-auto max-w-full object-contain"
+          className={`h-auto max-h-full w-auto max-w-full object-contain transition-opacity duration-300 ${assetsReady ? "opacity-100" : "opacity-0"}`}
           playsInline={true}
           muted={true}
           autoPlay={false}
           onEnded={onComplete}
+          onLoadedData={() => setIsVideoReady(true)}
+          onCanPlay={() => setIsVideoReady(true)}
           preload="auto"
           disablePictureInPicture
           loop={false}
@@ -52,14 +58,15 @@ export default function VideoIntro({ onComplete, onSkip }: VideoIntroProps) {
         <motion.div
           className="absolute inset-0 flex flex-col items-center justify-center z-50 pointer-events-none"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          animate={{ opacity: assetsReady ? 1 : 0 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
+          transition={{ duration: 0.3 }}
         >
           <motion.img
             src="/letters.png"
             alt={t('tapToContinue')}
-            className="w-45 max-w-[85vw] h-auto drop-shadow-[0_6px_18px_rgba(0,0,0,0.65)]"
+            className="w-64 md:w-80 max-w-[90vw] h-auto drop-shadow-[0_8px_24px_rgba(0,0,0,0.7)]"
+            onLoad={() => setIsLettersReady(true)}
             animate={{
               opacity: [0.85, 1, 0.85],
               scale: [1, 1.06, 1],

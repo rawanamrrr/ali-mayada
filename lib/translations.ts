@@ -54,7 +54,7 @@ export const translations = {
     ar: 'الإعلان',
   },
   revealInstruction: {
-    en: 'SCRATCH TO DISCOVER THE DATE',
+    en: 'SCRATCH FOR THE DATE',
     ar: 'امسح لاكتشاف التاريخ',
   },
   revealDayLabel: {

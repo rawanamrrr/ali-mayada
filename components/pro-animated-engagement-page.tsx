@@ -215,12 +215,12 @@ const SectionDivider = ({ variant }: { variant: SectionDividerVariant }) => {
     Quote
 
   return (
-    <div className="bg-[#ebebeb]">
+    <div className="bg-transparent">
       <div className="max-w-5xl mx-auto px-4 py-4 md:py-6">
         <div className="flex items-center justify-center gap-4">
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[#661314]/25 to-transparent" />
           <div className="relative w-7 h-7 flex items-center justify-center">
-            <div className="absolute inset-0 rotate-45 border border-[#661314]/35 bg-[#ebebeb] rounded-[2px]" />
+            <div className="absolute inset-0 rotate-45 border border-[#661314]/35 bg-transparent rounded-[2px]" />
             <div className="absolute inset-0 rotate-45 bg-[#661314]/10 blur-[2px] rounded-[2px]" />
             <Icon className="relative z-10 w-3.5 h-3.5 text-[#661314]/70" />
           </div>
@@ -295,29 +295,29 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
 
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-[#ebebeb] flex items-center justify-center">
+      <div className="min-h-screen bg-transparent flex items-center justify-center">
         <div className="text-foreground">Loading...</div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-[80vh] bg-[#ebebeb] overflow-x-hidden pt-0 pb-0">
+    <div className="min-h-[80vh] bg-transparent overflow-visible pt-0 pb-0">
       {/* Hero Section - Redesigned for exact match with VideoIntro container */}
       <motion.section 
-        className="relative w-full h-[100dvh] overflow-hidden bg-black flex items-center justify-center pt-0"
+        className="relative w-full h-[100dvh] overflow-hidden bg-black"
         initial="hidden"
         animate="visible"
         variants={fastStaggerContainer}
       >
-        <div className={`absolute inset-0 flex items-center justify-center pt-0 transition-opacity duration-500 ${introFinished ? 'opacity-100' : 'opacity-0'}`}>
-          <div className="relative w-full h-full flex items-center justify-center">
+        <div className={`absolute inset-0 transition-opacity duration-500 ${introFinished ? 'opacity-100' : 'opacity-0'}`}>
+          <div className="relative w-full h-full">
             <Image
               key="static-image"
               src="/invitation-design.jpg"
-              alt="Amr & Alaa Wedding Invitation"
+              alt="Ali & Mayada Wedding Invitation"
               fill
-              className="object-contain"
+              className="object-cover md:object-contain"
               priority
               loading="eager"
               quality={100}
@@ -343,7 +343,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
             animate={{ opacity: introFinished ? 1 : 0, y: 0 }}
             transition={{ delay: 1.5, duration: 1 }}
             onClick={() => {
-              const nextSection = document.querySelector('.bg-[#ebebeb]');
+              const nextSection = document.querySelector('.bg-transparent');
               nextSection?.scrollIntoView({ behavior: 'smooth' });
             }}
           >
@@ -363,7 +363,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
       <SectionDivider variant="reveal" />
 
       {/* Scratch to Discover Section */}
-      <div className="bg-[#ebebeb] py-4">
+      <div className="bg-transparent py-4">
         <ScratchToDiscover />
       </div>
 
@@ -371,7 +371,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
 
       {/* Countdown Section - Exact match to reference image */}
       <section 
-        className="relative py-4 px-4 md:py-6 overflow-hidden bg-[#ebebeb]"
+        className="relative py-4 px-4 md:py-6 overflow-visible bg-transparent"
       >
         <div className="relative max-w-6xl mx-auto text-center flex flex-col items-center">
           <h2 className="font-handwritten text-7xl md:text-9xl text-[#661314] mb-12 tracking-tight">
@@ -392,7 +392,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
 
       {/* Venue & RSVP Section - Redesigned to match reference */}
       <motion.section 
-        className="relative py-4 px-4 md:py-6 bg-[#ebebeb] overflow-hidden"
+        className="relative py-4 px-4 md:py-6 bg-transparent overflow-visible"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
@@ -418,7 +418,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
               className="relative w-full mb-12"
               variants={fadeIn}
             >
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg">
+              <div className="relative aspect-[4/3] w-full overflow-visible rounded-lg">
                 <Image
                   src="/map-pic.png"
                   alt="Venue Illustration"
@@ -460,7 +460,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
             </motion.div>
 
             <motion.div
-              className="w-full rounded-xl overflow-hidden"
+              className="w-full rounded-xl overflow-visible"
               variants={fadeIn}
             >
               <VenueMap />
@@ -472,7 +472,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
       <SectionDivider variant="timeline" />
  
       {/* Timeline Section */}
-      <section className="relative py-20 px-0 md:py-32 overflow-hidden bg-[#fdfcf8]">
+      <section className="relative py-20 px-0 md:py-32 overflow-visible bg-transparent">
         <div className="max-w-4xl mx-auto relative z-10 px-4 flex flex-col items-center">
           {/* Timeline Title */}
           <div className="text-center mb-16">
@@ -489,13 +489,13 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
             <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-[#661314]/30 -translate-x-1/2" />
 
             {[
-              { time: "04:00", label: t('timelineArrival'), icon: "/icons/arrival.png" },
-              { time: "04:30", label: t('timelineEntrance'), icon: "/icons/entrance.png" },
+              { time: "05:00", label: t('timelineArrival'), icon: "/icons/arrival.png" },
+              { time: "05:30", label: t('timelineEntrance'), icon: "/icons/entrance.png" },
               { time: "06:00", label: t('timelineParty'), icon: "/icons/party.png" },
               { time: "08:00", label: t('timelineCuttingCake'), icon: "/icons/cake.png" },
               { time: "09:00", label: t('timelineDinner'), icon: "/icons/dinner.png" },
               { time: "10:00", label: t('timelineSecondEntrance'), icon: "/icons/second-entrance.png" },
-              { time: "12:00", label: t('timelineFinale'), icon: "/icons/finale.png" },
+              { time: "01:00", label: t('timelineFinale'), icon: "/icons/finale.png" },
             ].map((item, idx) => {
               const isRTL = language === 'ar'
               const isLeft = (idx % 2 === 1) !== isRTL 
@@ -566,7 +566,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
       <SectionDivider variant="rsvp" />
 
       {/* Unified RSVP & Message Section */}
-      <div className="bg-[#ebebeb] py-0">
+      <div className="bg-transparent py-0">
         <RSVPSection />
       </div>
 
@@ -576,7 +576,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
           
           {/* Final Quote Section */}
           <motion.section 
-            className="relative py-0 text-center overflow-hidden bg-[#ebebeb]"
+            className="relative py-0 text-center overflow-visible bg-transparent"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
@@ -626,7 +626,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
       <SectionDivider variant="notes" />
 
       <motion.section
-        className="relative py-4 px-4 md:py-6 bg-[#ebebeb] overflow-hidden"
+        className="relative py-4 px-4 md:py-6 bg-transparent overflow-visible"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
@@ -663,7 +663,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                 <div className="mt-8 flex-1 flex flex-col justify-center gap-8 text-center">
                   <div className="flex flex-col items-center">
                     <div className="w-4 h-4 relative mb-4">
-                      <div className="absolute inset-0 rotate-45 border border-[#661314]/35 bg-[#ebebeb] rounded-[2px]" />
+                      <div className="absolute inset-0 rotate-45 border border-[#661314]/35 bg-transparent rounded-[2px]" />
                       <div className="absolute inset-0 rotate-45 bg-[#661314]/10 blur-[2px] rounded-[2px]" />
                     </div>
                     <p className="font-serif text-[13px] md:text-base text-[#661314]/85 italic leading-relaxed max-w-[32ch]">
@@ -675,7 +675,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
 
                   <div className="flex flex-col items-center">
                     <div className="w-4 h-4 relative mb-4">
-                      <div className="absolute inset-0 rotate-45 border border-[#661314]/35 bg-[#ebebeb] rounded-[2px]" />
+                      <div className="absolute inset-0 rotate-45 border border-[#661314]/35 bg-transparent rounded-[2px]" />
                       <div className="absolute inset-0 rotate-45 bg-[#661314]/10 blur-[2px] rounded-[2px]" />
                     </div>
                     <p className="font-serif text-[12px] md:text-sm text-[#661314]/85 leading-snug max-w-[46ch]">
@@ -691,7 +691,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
       
       {/* Footer */}
       <motion.footer 
-        className="relative py-24 text-center bg-[#ebebeb]"
+        className="relative py-24 text-center bg-transparent"
         variants={fadeIn}
       >
         <div className="max-w-3xl mx-auto px-4">

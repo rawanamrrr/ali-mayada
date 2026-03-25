@@ -54,7 +54,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* ✅ Open Graph tags for Facebook & WhatsApp previews */}
         <meta property="og:url" content="https://ali-mayada.digitivaa.com/" />
@@ -76,6 +76,13 @@ export default function RootLayout({
         <meta name="twitter:description" content="Join us in celebrating Ali & Mayada's wedding" />
         <meta name="twitter:image" content="https://ali-mayada.digitivaa.com/invitation-design.jpg" />
 
+        {/* Preload background image */}
+        <link
+          rel="preload"
+          href="/bg.JPG"
+          as="image"
+          type="image/jpeg"
+        />
         {/* Preload PNG with high priority to eliminate lag on Netlify */}
         <link
           rel="preload"
@@ -99,8 +106,20 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap"
           as="style"
         />
+        {/* Mobile Safari viewport height fix */}
+        <script dangerouslySetInnerHTML={{__html: `
+          (function() {
+            function setViewportHeight() {
+              const vh = window.innerHeight * 0.01;
+              document.documentElement.style.setProperty('--vh', vh + 'px');
+            }
+            setViewportHeight();
+            window.addEventListener('resize', setViewportHeight);
+            window.addEventListener('orientationchange', setViewportHeight);
+          })();
+        `}} />
       </head>
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} ${playfair.variable} relative bg-[#ebebeb]`}>
+      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} ${playfair.variable} relative`}>
         <LanguageProvider>
           <Suspense fallback={null}>
             <LanguageToggle />

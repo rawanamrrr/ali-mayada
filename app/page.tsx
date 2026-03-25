@@ -64,14 +64,14 @@ export default function Home() {
 
   if (!mounted) {
     return (
-      <main className="min-h-screen bg-black flex items-center justify-center">
+      <main className="min-h-screen bg-transparent flex items-center justify-center">
         <div className="text-white">Loading...</div>
       </main>
     )
   }
 
   return (
-    <main className="min-h-screen relative overflow-hidden bg-black">
+    <main className="min-h-screen relative overflow-visible bg-transparent">
       {/* Main Content - Always present but underneath */}
       <div className={`w-full transition-opacity duration-700 ${introFinished ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
         <ProAnimatedEngagementPage onImageLoad={handleImageLoad} introFinished={introFinished} />

@@ -550,7 +550,7 @@ export default function HandwrittenMessage() {
   return (
     <section 
       id="message" 
-      className="relative py-20 px-4 md:py-32 bg-[#ebebeb] overflow-hidden"
+      className="relative py-20 px-4 md:py-32 bg-transparent overflow-visible"
     >
       <div className="max-w-4xl mx-auto text-center flex flex-col items-center relative z-10">
         <motion.div 

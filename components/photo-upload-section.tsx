@@ -83,7 +83,7 @@ export default function PhotoUploadSection() {
 
   return (
     <motion.section 
-      className="relative py-8 px-4 md:py-12 bg-[#ebebeb] overflow-hidden"
+      className="relative py-8 px-4 md:py-12 bg-transparent overflow-visible"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-100px" }}

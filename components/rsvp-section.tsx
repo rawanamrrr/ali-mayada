@@ -221,7 +221,7 @@ export default function RSVPSection() {
   }
 
   return (
-    <section id="rsvp" className="relative py-8 px-4 md:py-12 bg-[#ebebeb] overflow-hidden">
+    <section id="rsvp" className="relative py-8 px-4 md:py-12 bg-transparent overflow-visible">
       <div className="max-w-4xl mx-auto text-center flex flex-col items-center relative z-10">
         <motion.div 
           className="mb-8 flex flex-col items-center"
