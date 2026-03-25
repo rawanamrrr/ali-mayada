@@ -19,6 +19,11 @@ export default function HandwrittenMessage() {
   const [history, setHistory] = useState<string[]>([]);
   const [messageType, setMessageType] = useState<'drawn' | 'written'>('drawn');
   const [writtenText, setWrittenText] = useState('');
+  
+  const historyRef = useRef(history);
+  useEffect(() => {
+    historyRef.current = history;
+  }, [history]);
 
   // Pen color options with translations
   const penColors = [
@@ -40,6 +45,7 @@ export default function HandwrittenMessage() {
 
   // Initialize canvas
   useEffect(() => {
+    if (messageType !== 'drawn') return;
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -53,13 +59,28 @@ export default function HandwrittenMessage() {
         if (Math.abs(canvas.width - width) > 5 || canvas.height !== 600) {
           canvas.width = width;
           canvas.height = 600; // Increased height for larger writing area
+          
+          // Re-apply styles and restore history if needed
+          const context = canvas.getContext('2d');
+          if (context) {
+            context.fillStyle = 'white';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            context.lineWidth = currentWidth + 2;
+            context.lineCap = 'round';
+            context.lineJoin = 'round';
+            context.strokeStyle = currentColor;
+
+            if (historyRef.current.length > 0) {
+              const img = new window.Image();
+              img.onload = () => {
+                context.drawImage(img, 0, 0);
+              };
+              img.src = historyRef.current[historyRef.current.length - 1];
+            }
+          }
         }
         canvas.style.border = '2px solid #e5e7eb';
         canvas.style.borderRadius = '0.5rem';
-        // Only fill background on initial setup, not on resize
-        if (isInitial) {
-          canvas.style.backgroundColor = 'white';
-        }
       }
     };
 
@@ -67,23 +88,32 @@ export default function HandwrittenMessage() {
     if (!context) return;
 
     // Set initial drawing styles
-    context.lineWidth = currentWidth;
+    context.lineWidth = currentWidth + 2;
     context.lineCap = 'round';
     context.lineJoin = 'round';
     context.strokeStyle = currentColor;
-    // Only fill background on initial setup
+    
+    setCanvasSize(true); // Initial setup
+
+    // Fill background on initial setup
     context.fillStyle = 'white';
     context.fillRect(0, 0, canvas.width, canvas.height);
 
-    // If there is no history yet, save the initial blank state
-    if (history.length === 0 && canvasRef.current) {
+    if (history.length > 0) {
+      // Restore previous state if we have history
+      const img = new window.Image();
+      img.onload = () => {
+        context.drawImage(img, 0, 0);
+      };
+      img.src = history[history.length - 1];
+    } else if (canvasRef.current) {
+      // Save initial blank state
       const dataUrl = canvasRef.current.toDataURL();
       setHistory([dataUrl]);
     }
 
     setCtx(context);
-    lastWidth.current = currentWidth; // Initialize lastWidth
-    setCanvasSize(true); // Initial setup
+    lastWidth.current = currentWidth + 2; // Initialize lastWidth
 
     const handleResize = () => setCanvasSize(false); // Resize without clearing
     window.addEventListener('resize', handleResize);
@@ -114,13 +144,13 @@ export default function HandwrittenMessage() {
       window.removeEventListener('scroll', handleScroll);
       clearTimeout(scrollTimeout);
     };
-  }, []);
+  }, [messageType]);
 
   // Update drawing context when color or width changes
   useEffect(() => {
     if (ctx) {
       ctx.strokeStyle = currentColor;
-      ctx.lineWidth = currentWidth;
+      ctx.lineWidth = currentWidth + 2;
     }
   }, [currentColor, currentWidth, ctx]);
 
@@ -145,44 +175,43 @@ export default function HandwrittenMessage() {
   };
 
   const drawSmoothLine = () => {
-    if (!canvasRef.current || points.current.length < 3) return;
+    if (!canvasRef.current || points.current.length < 2) return;
     
     const ctx = canvasRef.current.getContext('2d');
-    if (!ctx) return;
+    if (!ctx || !canvasStateBeforeDrawing.current) return;
 
-    const pointsToDraw = [...points.current];
+    // Restore canvas to clean state before rendering the stroke path
+    ctx.putImageData(canvasStateBeforeDrawing.current, 0, 0);
+
+    const pointsToDraw = points.current;
     
     ctx.beginPath();
     ctx.moveTo(pointsToDraw[0].x, pointsToDraw[0].y);
     
-    // Draw a smooth curve through the points
-    for (let i = 1; i < pointsToDraw.length - 2; i++) {
-      const xc = (pointsToDraw[i].x + pointsToDraw[i + 1].x) / 2;
-      const yc = (pointsToDraw[i].y + pointsToDraw[i + 1].y) / 2;
-      ctx.quadraticCurveTo(pointsToDraw[i].x, pointsToDraw[i].y, xc, yc);
+    if (pointsToDraw.length === 2) {
+      ctx.lineTo(pointsToDraw[1].x, pointsToDraw[1].y);
+    } else {
+      // Draw a smooth curve through the entire stroke path
+      for (let i = 1; i < pointsToDraw.length - 2; i++) {
+        const xc = (pointsToDraw[i].x + pointsToDraw[i + 1].x) / 2;
+        const yc = (pointsToDraw[i].y + pointsToDraw[i + 1].y) / 2;
+        ctx.quadraticCurveTo(pointsToDraw[i].x, pointsToDraw[i].y, xc, yc);
+      }
+      
+      // Connect the last two points
+      if (pointsToDraw.length > 2) {
+        const i = pointsToDraw.length - 2;
+        ctx.quadraticCurveTo(
+          pointsToDraw[i].x, 
+          pointsToDraw[i].y, 
+          pointsToDraw[i + 1].x, 
+          pointsToDraw[i + 1].y
+        );
+      }
     }
-    
-    // Connect the last two points
-    if (pointsToDraw.length > 1) {
-      const i = pointsToDraw.length - 2;
-      ctx.quadraticCurveTo(
-        pointsToDraw[i].x, 
-        pointsToDraw[i].y, 
-        pointsToDraw[i + 1].x, 
-        pointsToDraw[i + 1].y
-      );
-    }
-    
-    // Use the average pressure of the points for the line width
-    const avgPressure = pointsToDraw.reduce((sum, p) => sum + p.pressure, 0) / pointsToDraw.length;
-    const targetWidth = currentWidth * (0.5 + avgPressure * 0.5);
-    
-    // Smooth width transition
-    const width = lastWidth.current + (targetWidth - lastWidth.current) * 0.3;
-    lastWidth.current = width;
     
     ctx.strokeStyle = currentColor;
-    ctx.lineWidth = width;
+    ctx.lineWidth = currentWidth + 2;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     ctx.stroke();
@@ -268,16 +297,12 @@ export default function HandwrittenMessage() {
     
     // Start the drawing loop
     const drawLoop = () => {
-      // Only draw if we have at least 3 points (a real stroke, not just a tap)
-      if (points.current.length >= 3) {
+      // Only draw if we have at least 2 points (a real stroke, not just a tap)
+      if (points.current.length >= 2) {
         drawSmoothLine();
         // Save initial state after first actual draw
         if (!hasSavedInitialState.current && canvasRef.current) {
           hasSavedInitialState.current = true;
-        }
-        // Keep only the last few points to maintain performance
-        if (points.current.length > 10) {
-          points.current = points.current.slice(-10);
         }
       }
       rafId.current = requestAnimationFrame(drawLoop);
@@ -355,7 +380,7 @@ export default function HandwrittenMessage() {
     }
     
     // Determine if this was a dot (tap) or a stroke (drag)
-    const isDot = points.current.length < 3;
+    const isDot = points.current.length === 1 || (points.current.length === 2 && Math.hypot(points.current[0].x - points.current[1].x, points.current[0].y - points.current[1].y) < 5);
     
     if (isDot) {
       // It's a dot - restore canvas to clean state first
@@ -363,9 +388,12 @@ export default function HandwrittenMessage() {
       // Now draw a clean dot
       const point = points.current[0];
       ctx.beginPath();
-      ctx.arc(point.x, point.y, currentWidth / 2, 0, Math.PI * 2);
+      ctx.arc(point.x, point.y, (currentWidth + 2) / 2, 0, Math.PI * 2);
       ctx.fillStyle = currentColor;
       ctx.fill();
+    } else {
+      // Ensure the final stroke path is drawn completely
+      drawSmoothLine();
     }
     
     // Save to history exactly once per drawing session
@@ -608,12 +636,38 @@ export default function HandwrittenMessage() {
                           key={pen.color}
                           type="button"
                           onClick={() => setCurrentColor(pen.color)}
-                          className={`w-6 h-6 rounded-full border ${
-                            currentColor === pen.color ? 'border-[#661314]' : 'border-transparent'
+                          className={`w-6 h-6 rounded-full border transition-all ${
+                            currentColor === pen.color ? 'border-[#661314] scale-110' : 'border-transparent'
                           }`}
                           style={{ backgroundColor: pen.color }}
                           title={pen.name}
                         />
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-serif text-[#661314]/60 uppercase tracking-widest">{t('widthThin').replace(/[a-z]/g,'').trim() || 'Size'}:</span>
+                    <div className="flex gap-2 items-center bg-white/50 px-2 py-1 rounded-full border border-[#661314]/10">
+                      {penWidths.map((pen) => (
+                        <button
+                          key={pen.name}
+                          type="button"
+                          onClick={() => setCurrentWidth(pen.width)}
+                          className={`w-8 h-8 flex items-center justify-center rounded-full transition-all ${
+                            currentWidth === pen.width ? 'bg-[#661314]/10' : 'hover:bg-black/5'
+                          }`}
+                          title={pen.name}
+                        >
+                          <div 
+                            className="bg-current rounded-full transition-all" 
+                            style={{ 
+                              width: `${pen.width + 2}px`, 
+                              height: `${pen.width + 2}px`,
+                              backgroundColor: currentColor
+                            }} 
+                          />
+                        </button>
                       ))}
                     </div>
                   </div>

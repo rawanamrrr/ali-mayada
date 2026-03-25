@@ -23,6 +23,11 @@ export default function RSVPSection() {
   const [history, setHistory] = useState<string[]>([])
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null)
   
+  const historyRef = useRef(history)
+  useEffect(() => {
+    historyRef.current = history
+  }, [history])
+  
   const points = useRef<Array<{x: number, y: number, pressure: number}>>([])
   const rafId = useRef<number | null>(null)
   const lastWidth = useRef(3)
@@ -56,12 +61,16 @@ export default function RSVPSection() {
       context.lineCap = 'round'
       context.lineJoin = 'round'
       context.strokeStyle = currentColor
-      context.lineWidth = currentWidth
+      context.lineWidth = currentWidth + 2
       context.fillStyle = 'white'
       context.fillRect(0, 0, canvas.width, canvas.height)
       setCtx(context)
       
-      if (history.length === 0) {
+      if (history.length > 0) {
+        const img = new window.Image()
+        img.onload = () => context.drawImage(img, 0, 0)
+        img.src = history[history.length - 1]
+      } else if (canvasRef.current && history.length === 0) {
         setHistory([canvas.toDataURL()])
       }
     }
@@ -83,19 +92,35 @@ export default function RSVPSection() {
   }
 
   const drawSmoothLine = () => {
-    if (!ctx || points.current.length < 3) return
+    if (!ctx || !canvasRef.current || points.current.length < 2) return
+    
+    // Restore canvas to clean state before rendering the stroke path
+    if (canvasStateBeforeDrawing.current) {
+      ctx.putImageData(canvasStateBeforeDrawing.current, 0, 0);
+    }
+
     const pts = points.current
     ctx.beginPath()
     ctx.moveTo(pts[0].x, pts[0].y)
-    for (let i = 1; i < pts.length - 2; i++) {
-      const xc = (pts[i].x + pts[i + 1].x) / 2
-      const yc = (pts[i].y + pts[i + 1].y) / 2
-      ctx.quadraticCurveTo(pts[i].x, pts[i].y, xc, yc)
+    
+    if (pts.length === 2) {
+      ctx.lineTo(pts[1].x, pts[1].y)
+    } else {
+      for (let i = 1; i < pts.length - 2; i++) {
+        const xc = (pts[i].x + pts[i + 1].x) / 2
+        const yc = (pts[i].y + pts[i + 1].y) / 2
+        ctx.quadraticCurveTo(pts[i].x, pts[i].y, xc, yc)
+      }
+      if (pts.length > 2) {
+        const i = pts.length - 2
+        ctx.quadraticCurveTo(pts[i].x, pts[i].y, pts[i+1].x, pts[i+1].y)
+      }
     }
-    const avgPressure = pts.reduce((sum, p) => sum + p.pressure, 0) / pts.length
-    const targetWidth = currentWidth * (0.5 + avgPressure * 0.5)
-    ctx.lineWidth = lastWidth.current + (targetWidth - lastWidth.current) * 0.3
-    lastWidth.current = ctx.lineWidth
+    
+    ctx.strokeStyle = currentColor
+    ctx.lineWidth = currentWidth + 2
+    ctx.lineCap = 'round'
+    ctx.lineJoin = 'round'
     ctx.stroke()
   }
 
@@ -114,7 +139,7 @@ export default function RSVPSection() {
     isProcessingStop.current = false
 
     const loop = () => {
-      if (points.current.length >= 3) drawSmoothLine()
+      if (points.current.length >= 2) drawSmoothLine()
       rafId.current = requestAnimationFrame(loop)
     }
     rafId.current = requestAnimationFrame(loop)
@@ -133,13 +158,20 @@ export default function RSVPSection() {
     setIsDrawing(false)
     if (rafId.current) cancelAnimationFrame(rafId.current)
 
-    // Handle dot drawing (if there are very few points, it's likely a tap)
-    if (ctx && points.current.length > 0 && points.current.length < 3) {
+    // Determine if this was a dot (tap) or a stroke (drag)
+    const isDot = points.current.length === 1 || (points.current.length === 2 && Math.hypot(points.current[0].x - points.current[1].x, points.current[0].y - points.current[1].y) < 5);
+    
+    if (ctx && isDot) {
+      if (canvasStateBeforeDrawing.current) {
+        ctx.putImageData(canvasStateBeforeDrawing.current, 0, 0)
+      }
       const point = points.current[0]
       ctx.beginPath()
-      ctx.arc(point.x, point.y, currentWidth / 2, 0, Math.PI * 2)
+      ctx.arc(point.x, point.y, (currentWidth + 2) / 2, 0, Math.PI * 2)
       ctx.fillStyle = currentColor
       ctx.fill()
+    } else if (ctx) {
+      drawSmoothLine()
     }
 
     if (canvasRef.current && !hasSavedToHistory.current) {
@@ -332,9 +364,29 @@ export default function RSVPSection() {
                         key={p.color}
                         type="button"
                         onClick={() => setCurrentColor(p.color)}
-                        className={`w-6 h-6 rounded-full border-2 ${currentColor === p.color ? 'border-[#661314]' : 'border-transparent'}`}
+                        className={`w-6 h-6 rounded-full border-2 transition-all ${currentColor === p.color ? 'border-[#661314] scale-110' : 'border-transparent'}`}
                         style={{ backgroundColor: p.color }}
+                        title={p.name}
                       />
+                    ))}
+                  </div>
+                  <div className="flex justify-center gap-2 items-center bg-white/50 px-2 py-1 rounded-full border border-[#661314]/10 w-fit mx-auto">
+                    {[2,3,5,8].map(w => (
+                      <button
+                        key={w}
+                        type="button"
+                        onClick={() => setCurrentWidth(w)}
+                        className={`w-8 h-8 flex items-center justify-center rounded-full transition-all ${currentWidth === w ? 'bg-[#661314]/10' : 'hover:bg-black/5'}`}
+                      >
+                        <div 
+                          className="bg-current rounded-full transition-all" 
+                          style={{ 
+                            width: `${w + 2}px`, 
+                            height: `${w + 2}px`,
+                            backgroundColor: currentColor
+                          }} 
+                        />
+                      </button>
                     ))}
                   </div>
                   <div className="border border-[#661314]/20 rounded-lg bg-white overflow-hidden">
