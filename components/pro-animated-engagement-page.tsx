@@ -352,7 +352,6 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
               className="object-cover md:object-contain"
               priority
               loading="eager"
-              quality={100}
               onLoad={handleImageLoad}
               sizes="100vw"
             />
@@ -511,10 +510,10 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
         <div className="max-w-4xl mx-auto relative z-10 px-4 flex flex-col items-center">
           {/* Timeline Title */}
           <div className="text-center mb-16">
-            <h2 className="font-handwritten text-5xl md:text-7xl text-[#661314] mb-4">
+            <h2 className="font-handwritten text-7xl md:text-7xl text-[#661314] mb-4">
               Timeline
             </h2>
-            <p className="font-serif text-[#661314]/60 tracking-widest text-sm md:text-base uppercase">
+            <p className="font-serif font-bold text-[#661314]/60 tracking-widest text-sm md:text-base uppercase">
               {formattedDate}
             </p>
           </div>

@@ -46,7 +46,6 @@ export default function VenueMap() {
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
                 priority
-                quality={85}
                 sizes="(max-width: 640px) 100vw, (max-width: 768px) 90vw, (max-width: 1024px) 80vw, 70vw"
                 onLoad={() => setImageLoaded(true)}
               />
