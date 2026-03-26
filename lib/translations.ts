@@ -85,6 +85,10 @@ export const translations = {
     en: 'Until The Big Day',
     ar: 'حتى اليوم الكبير',
   },
+  timelineTitle: {
+    en: 'Timeline',
+    ar: 'الجدول الزمني',
+  },
   timelineArrival: {
     en: 'Arrival',
     ar: 'الوصول',

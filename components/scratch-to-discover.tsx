@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import confetti from 'canvas-confetti'
 import ScratchCard from './scratch-card'
 import { useTranslation } from '@/lib/translations'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 type ScratchToDiscoverProps = {
   onAllRevealed?: () => void
@@ -12,6 +13,7 @@ type ScratchToDiscoverProps = {
 
 const ScratchToDiscover = ({ onAllRevealed }: ScratchToDiscoverProps) => {
   const t = useTranslation()
+  const { isRTL } = useLanguage()
   const [scratchedStates, setScratchedStates] = useState([false, false, false])
   const [allRevealed, setAllRevealed] = useState(false)
 
@@ -97,7 +99,11 @@ const ScratchToDiscover = ({ onAllRevealed }: ScratchToDiscoverProps) => {
           <h2 className="font-handwritten text-7xl md:text-9xl text-[#661314] mb-4 tracking-tight leading-[1.15] pt-3">
             {t('revealTitle')}
           </h2>
-          <p className="text-[#661314] font-serif tracking-[0.3em] text-[15px] md:text-xs uppercase font-medium">
+          <p
+            className={`text-[#661314] font-serif text-[15px] md:text-xs font-medium leading-[1.6] py-1 ${
+              isRTL ? '' : 'tracking-[0.3em] uppercase'
+            }`}
+          >
             {t('revealInstruction')}
           </p>
         </div>

@@ -73,7 +73,7 @@ export default function Home() {
   return (
     <main className="min-h-screen relative overflow-visible bg-transparent">
       {/* Main Content - Always present but underneath */}
-      <div className={`w-full transition-opacity duration-700 ${introFinished ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+      <div className={`w-full ${!introFinished ? 'pointer-events-none' : ''}`}>
         <ProAnimatedEngagementPage onImageLoad={handleImageLoad} introFinished={introFinished} />
       </div>
 
@@ -84,7 +84,7 @@ export default function Home() {
             key="video-intro"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1, ease: "easeInOut" }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
             className="fixed inset-0 z-[9999] bg-black"
           >
             <VideoIntro 

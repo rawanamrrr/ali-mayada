@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useMemo, useCallback, memo } from "react"
 import { useTranslation } from "@/lib/translations"
+import { useLanguage } from "@/contexts/LanguageContext"
 
 interface CountdownTimerProps {
   targetDate: Date
@@ -17,6 +18,7 @@ interface TimeLeft {
 
 const CountdownTimer = memo(function CountdownTimer({ targetDate, hideNumbers }: CountdownTimerProps) {
   const t = useTranslation()
+  const { language } = useLanguage()
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: '',
     hours: '',
@@ -87,7 +89,11 @@ const CountdownTimer = memo(function CountdownTimer({ targetDate, hideNumbers }:
           </div>
           
           {/* Label below the box */}
-          <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-[#661314]/70 font-medium">
+          <span
+            className={`text-[10px] md:text-xs text-[#661314]/70 font-medium leading-[1.4] ${
+              language === 'ar' ? '' : 'uppercase tracking-[0.2em]'
+            }`}
+          >
             {unit.key === 'days' ? t('daysShort') : 
              unit.key === 'hours' ? t('hoursShort') : 
              unit.key === 'minutes' ? t('minutesShort') : t('secondsShort')}

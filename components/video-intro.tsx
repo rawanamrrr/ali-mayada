@@ -37,7 +37,7 @@ export default function VideoIntro({ onComplete, onSkip }: VideoIntroProps) {
       >
         <video 
           ref={videoRef}
-          className={`h-auto max-h-full w-auto max-w-full object-contain transition-opacity duration-300 ${assetsReady ? "opacity-100" : "opacity-0"}`}
+          className={`absolute inset-0 w-full h-full object-cover md:object-contain transition-opacity duration-300 ${assetsReady ? "opacity-100" : "opacity-0"}`}
           playsInline={true}
           muted={true}
           autoPlay={false}

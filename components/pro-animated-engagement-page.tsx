@@ -342,7 +342,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
         animate="visible"
         variants={fastStaggerContainer}
       >
-        <div className={`absolute inset-0 transition-opacity duration-500 ${introFinished ? 'opacity-100' : 'opacity-0'}`}>
+        <div className="absolute inset-0 opacity-100">
           <div className="relative w-full h-full">
             <Image
               key="static-image"
@@ -378,7 +378,11 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
               nextSection?.scrollIntoView({ behavior: 'smooth' });
             }}
           >
-            <span className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-[#661314]/80 font-medium">
+            <span
+              className={`text-[10px] md:text-xs text-[#661314]/80 font-medium leading-[1.4] ${
+                language === 'ar' ? '' : 'uppercase tracking-[0.3em]'
+              }`}
+            >
               {t('scrollDown')}
             </span>
             <motion.div
@@ -437,7 +441,11 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
             className="mb-8 flex flex-col items-center"
             variants={fadeIn}
           >
-            <p className="font-serif text-lg md:text-xl text-[#661314]/80 italic mt-4 uppercase tracking-[0.3em]">
+            <p
+              className={`font-serif text-lg md:text-xl text-[#661314]/80 italic mt-4 leading-[1.4] ${
+                language === 'ar' ? '' : 'uppercase tracking-[0.3em]'
+              }`}
+            >
               {t('venueSubtitle')}
             </p>
           </motion.div>
@@ -474,10 +482,18 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
               className="flex flex-col items-center gap-1 mb-10"
               variants={fadeIn}
             >
-              <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-[#661314]/70 font-medium">
+              <p
+                className={`text-[10px] md:text-xs text-[#661314]/70 font-medium leading-[1.4] ${
+                  language === 'ar' ? '' : 'uppercase tracking-[0.2em]'
+                }`}
+              >
                 {t('venueCity')}
               </p>
-              <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-[#661314]/70 font-medium">
+              <p
+                className={`text-[10px] md:text-xs text-[#661314]/70 font-medium leading-[1.4] ${
+                  language === 'ar' ? '' : 'uppercase tracking-[0.2em]'
+                }`}
+              >
                 {t('venueCountry')}
               </p>
             </motion.div>
@@ -511,9 +527,13 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
           {/* Timeline Title */}
           <div className="text-center mb-16">
             <h2 className="font-handwritten text-7xl md:text-7xl text-[#661314] mb-4">
-              Timeline
+              {t('timelineTitle')}
             </h2>
-            <p className="font-serif font-bold text-[#661314]/60 tracking-widest text-sm md:text-base uppercase">
+            <p
+              className={`font-serif font-bold text-[#661314]/60 text-sm md:text-base leading-[1.6] ${
+                language === 'ar' ? '' : 'tracking-widest uppercase'
+              }`}
+            >
               {formattedDate}
             </p>
           </div>
@@ -538,13 +558,23 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                   {/* Horizontal tick mark on the line */}
                   <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3 md:w-4 h-[1px] bg-[#661314]/30" />
 
-                  <div className="pr-8 md:pr-12 text-right flex flex-col items-end justify-center">
+                  <div
+                    className={`flex flex-col justify-center ${
+                      isRTL
+                        ? 'pl-8 md:pl-12 text-left items-end'
+                        : 'pr-8 md:pr-12 text-right items-end'
+                    }`}
+                  >
                     {isLeft ? (
                       <>
                         <div className="font-serif text-sm md:text-base font-bold tracking-[0.1em] text-[#661314]">
                           {item.time}
                         </div>
-                        <div className="font-serif text-[9px] md:text-[10px] tracking-[0.2em] text-[#661314]/75 font-bold uppercase mt-0.5">
+                        <div
+                          className={`font-serif text-[9px] md:text-[10px] text-[#661314]/75 font-bold mt-0.5 leading-[1.5] ${
+                            isRTL ? '' : 'tracking-[0.2em] uppercase'
+                          }`}
+                        >
                           {item.label}
                         </div>
                       </>
@@ -560,13 +590,23 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                     )}
                   </div>
 
-                  <div className="pl-8 md:pl-12 text-left flex flex-col items-start justify-center">
+                  <div
+                    className={`flex flex-col justify-center ${
+                      isRTL
+                        ? 'pr-8 md:pr-12 text-right items-start'
+                        : 'pl-8 md:pl-12 text-left items-start'
+                    }`}
+                  >
                     {!isLeft ? (
                       <>
                         <div className="font-serif text-sm md:text-base font-bold tracking-[0.1em] text-[#661314]">
                           {item.time}
                         </div>
-                        <div className="font-serif text-[9px] md:text-[10px] tracking-[0.2em] text-[#661314]/75 font-bold uppercase mt-0.5">
+                        <div
+                          className={`font-serif text-[9px] md:text-[10px] text-[#661314]/75 font-bold mt-0.5 leading-[1.5] ${
+                            isRTL ? '' : 'tracking-[0.2em] uppercase'
+                          }`}
+                        >
                           {item.label}
                         </div>
                       </>
@@ -688,7 +728,11 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
 
               <div className="absolute inset-0 flex flex-col px-10 md:px-16 py-12 md:py-16">
                 <div className="text-center mt-6 md:mt-5">
-                  <p className="text-[14px] md:text-xs uppercase tracking-[0.55em] text-[#661314]/75 font-large">
+                  <p
+                    className={`text-[14px] md:text-xs text-[#661314]/75 ${
+                      language === 'ar' ? '' : 'uppercase tracking-[0.55em]'
+                    }`}
+                  >
                     {t('importantNotesTitle')}
                   </p>
                   <div className="mt-5 w-24 h-px bg-gradient-to-r from-transparent via-[#661314]/30 to-transparent mx-auto" />
