@@ -5,22 +5,23 @@ import { useTranslation } from "@/lib/translations"
 
 interface CountdownTimerProps {
   targetDate: Date
+  hideNumbers?: boolean
 }
 
 interface TimeLeft {
-  days: number
-  hours: number
-  minutes: number
-  seconds: number
+  days: number | string
+  hours: number | string
+  minutes: number | string
+  seconds: number | string
 }
 
-const CountdownTimer = memo(function CountdownTimer({ targetDate }: CountdownTimerProps) {
+const CountdownTimer = memo(function CountdownTimer({ targetDate, hideNumbers }: CountdownTimerProps) {
   const t = useTranslation()
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
+    days: '',
+    hours: '',
+    minutes: '',
+    seconds: '',
   })
 
   // Memoize target timestamp to avoid recalculation
@@ -28,6 +29,11 @@ const CountdownTimer = memo(function CountdownTimer({ targetDate }: CountdownTim
 
   // Optimize calculation with useCallback
   const calculateTimeLeft = useCallback(() => {
+    if (hideNumbers) {
+      setTimeLeft({ days: '', hours: '', minutes: '', seconds: '' })
+      return
+    }
+
     const difference = targetTimestamp - Date.now()
 
     if (difference > 0) {
@@ -49,7 +55,7 @@ const CountdownTimer = memo(function CountdownTimer({ targetDate }: CountdownTim
         return prev
       })
     }
-  }, [targetTimestamp])
+  }, [targetTimestamp, hideNumbers])
 
   useEffect(() => {
     calculateTimeLeft()

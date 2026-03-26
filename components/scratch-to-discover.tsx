@@ -28,6 +28,7 @@ const ScratchToDiscover = ({ onAllRevealed }: ScratchToDiscoverProps) => {
   useEffect(() => {
     if (!allRevealed) return
 
+    /* 
     const id = window.setTimeout(() => {
       weddingMessageRef.current?.scrollIntoView({
         behavior: 'smooth',
@@ -37,6 +38,7 @@ const ScratchToDiscover = ({ onAllRevealed }: ScratchToDiscoverProps) => {
     }, 150)
 
     return () => window.clearTimeout(id)
+    */
   }, [allRevealed])
 
   const handleComplete = useCallback((index: number) => {
@@ -103,7 +105,7 @@ const ScratchToDiscover = ({ onAllRevealed }: ScratchToDiscoverProps) => {
         <div className="flex flex-row items-center justify-center gap-6 md:gap-12">
           {/* Day */}
           <div className="flex flex-col items-center gap-2">
-            <ScratchCard width={110} height={110} onComplete={() => handleComplete(0)} shimmerColor="#dedad2" brushSize={10}>
+            <ScratchCard width={100} height={100} onComplete={() => handleComplete(0)} shimmerColor="#dedad2" brushSize={10}>
               <div className="text-center">
                 <span className="text-3xl md:text-5xl font-bold text-[#661314]">06</span>
               </div>
@@ -112,7 +114,7 @@ const ScratchToDiscover = ({ onAllRevealed }: ScratchToDiscoverProps) => {
 
           {/* Month */}
           <div className="flex flex-col items-center gap-2">
-            <ScratchCard width={110} height={110} onComplete={() => handleComplete(1)} shimmerColor="#dedad2" brushSize={10}>
+            <ScratchCard width={100} height={100} onComplete={() => handleComplete(1)} shimmerColor="#dedad2" brushSize={10}>
               <div className="text-center">
                 <span className="text-3xl md:text-5xl font-bold text-[#661314]">{t('revealMonthValue')}</span>
               </div>
@@ -121,7 +123,7 @@ const ScratchToDiscover = ({ onAllRevealed }: ScratchToDiscoverProps) => {
 
           {/* Year */}
           <div className="flex flex-col items-center gap-2">
-            <ScratchCard width={110} height={110} onComplete={() => handleComplete(2)} shimmerColor="#dedad2" brushSize={10}>
+            <ScratchCard width={100} height={100} onComplete={() => handleComplete(2)} shimmerColor="#dedad2" brushSize={10}>
               <div className="text-center">
                 <span className="text-3xl md:text-5xl font-bold text-[#661314]">2026</span>
               </div>

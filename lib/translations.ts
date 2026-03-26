@@ -82,7 +82,7 @@ export const translations = {
     ar: 'العد التنازلي',
   },
   countdownSubtitle: {
-    en: 'Until the big day',
+    en: 'Until The Big Day',
     ar: 'حتى اليوم الكبير',
   },
   timelineArrival: {
@@ -122,12 +122,12 @@ export const translations = {
     ar: 'سيقام الاحتفال في',
   },
   venueCity: {
-    en: 'Montaza, Alexandria',
-    ar: 'المنتزه، الإسكندرية',
+    en: 'Montaza, Alexandria, Egypt',
+    ar: 'المنتزه، الإسكندرية, مصر',
   },
   venueCountry: {
-    en: 'EGYPT',
-    ar: 'مصر',
+    en: '',
+    ar: '',
   },
   guestbookTitle: {
     en: 'Guestbook',
