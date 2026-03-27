@@ -27,7 +27,21 @@ export default function Home() {
 
   useEffect(() => {
     setMounted(true)
+    if (typeof window !== 'undefined') {
+      window.history.scrollRestoration = 'manual'
+      window.scrollTo(0, 0)
+    }
   }, [])
+
+  useEffect(() => {
+    if (mounted) {
+      if (!introFinished) {
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.body.style.overflow = ''
+      }
+    }
+  }, [introFinished, mounted])
 
   const handleIntroFinish = useCallback(() => {
     setIntroFinished(true);

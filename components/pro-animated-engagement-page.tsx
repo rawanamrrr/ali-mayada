@@ -402,29 +402,38 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
         <ScratchToDiscover onAllRevealed={() => setRevealUnlocked(true)} />
       </div>
 
-      <SectionDivider variant="countdown" />
-
-      {/* Countdown Section - Exact match to reference image */}
-      <section
-        className="relative py-4 px-4 md:py-6 overflow-visible bg-transparent"
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ 
+          opacity: revealUnlocked ? 1 : 0,
+          pointerEvents: revealUnlocked ? "auto" : "none"
+        }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
       >
-        <div className="relative max-w-6xl mx-auto text-center flex flex-col items-center">
-          <h2 className="font-handwritten text-7xl md:text-9xl text-[#661314] mb-12 tracking-tight">
-            {t('countdownTitle')}
-          </h2>
+        <SectionDivider variant="countdown" />
 
-          <div className="mb-12">
-            <CountdownTimer 
-              targetDate={new Date("2026-06-06T18:00:00")} 
-              hideNumbers={!revealUnlocked}
-            />
+        {/* Countdown Section - Exact match to reference image */}
+        <section
+          className="relative py-4 px-4 md:py-6 overflow-visible bg-transparent"
+        >
+          <div className="relative max-w-6xl mx-auto text-center flex flex-col items-center">
+            <h2 className="font-handwritten text-7xl md:text-9xl text-[#661314] mb-12 tracking-tight">
+              {t('countdownTitle')}
+            </h2>
+
+            <div className="mb-12">
+              <CountdownTimer 
+                targetDate={new Date("2026-06-06T18:00:00")} 
+                hideNumbers={false}
+              />
+            </div>
+
+            <p className="font-handwritten text-3xl md:text-4xl text-[#661314]/80 mt-4 leading-[1.2]">
+              {t('countdownSubtitle')}
+            </p>
           </div>
-
-          <p className="font-handwritten text-3xl md:text-4xl text-[#661314]/80 mt-4 leading-[1.2]">
-            {t('countdownSubtitle')}
-          </p>
-        </div>
-      </section>
+        </section>
+      </motion.div>
 
       <SectionDivider variant="venue" />
 
