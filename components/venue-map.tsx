@@ -81,11 +81,11 @@ export default function VenueMap() {
 
           <div className="mt-4 text-center px-4">
             <h3 className="text-xl sm:text-2xl font-serif font-medium text-foreground mb-2">
-              {isRTL ? 'فندق هلنان فلسطين' : 'Helnan Palestine Hotel'}
+              {isRTL ? 'فندق فلسطين المنتزه' : 'Palestine Montaza Hotel'}
             </h3>
 
             <p className="text-muted-foreground text-base sm:text-lg mb-3">
-              {isRTL ? 'المنتزه' : 'Montaza'}
+              {isRTL ? '' : ''}
             </p>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
               <div className="flex items-center gap-2">

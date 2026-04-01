@@ -37,7 +37,7 @@ export default function VideoIntro({ onComplete, onSkip }: VideoIntroProps) {
       >
         <video 
           ref={videoRef}
-          className={`absolute inset-0 w-full h-full object-cover md:object-contain transition-opacity duration-300 ${assetsReady ? "opacity-100" : "opacity-0"}`}
+          className="absolute inset-0 w-full h-full object-cover md:object-contain"
           playsInline={true}
           muted={true}
           autoPlay={false}
@@ -65,7 +65,7 @@ export default function VideoIntro({ onComplete, onSkip }: VideoIntroProps) {
           <motion.img
             src="/letters.png"
             alt={t('tapToContinue')}
-            className="w-56 md:w-72 max-w-[90vw] h-auto drop-shadow-[0_8px_24px_rgba(0,0,0,0.7)]"
+            className="w-50 md:w-56 max-w-[80vw] h-auto drop-shadow-[0_8px_24px_rgba(0,0,0,0.7)]"
             onLoad={() => setIsLettersReady(true)}
             animate={{
               opacity: [0.85, 1, 0.85],

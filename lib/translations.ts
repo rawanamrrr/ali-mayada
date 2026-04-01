@@ -18,12 +18,16 @@ export const translations = {
     ar: 'ملاحظات مهمة',
   },
   kidsNotAllowed: {
-    en: 'Kids are not allowed',
-    ar: 'الأطفال غير مسموح بهم',
+    en: 'Dress Code : Formal : Elegant Attire',
+    ar: 'اللبس الرسمي: ملابس أنيقة',
   },
   parkGarageNote: {
-    en: "There are no entrance fees for the park. Fees apply only if you enter the hotel garage — please inform them you're attending the wedding.",
-    ar: 'لا توجد رسوم لدخول المنتزه. تُطبق الرسوم فقط في حالة دخول جراج الفندق — برجاء إبلاغهم أنكم داخلين الفرح.',
+    en: 'As you celebrate with us, we send a goodnight kiss to your kids',
+    ar: 'أثناء احتفالكم معنا، نرسل قبلة تصبحوا على خير لأطفالكم',
+  },
+  montazahGardensNote: {
+    en: 'All wedding guests will enjoy complimentary access to Montazah Gardens using a QR code that will be shared, kindly note that only parking fees in the hotel will be charged',
+    ar: 'جميع ضيوف الزفاف سيتمتعون بدخول مجاني لحدائق المنتزه باستخدام كود QR سيتم مشاركته، برجاء العلم أن الرسوم الوحيدة ستكون رسوم ركن السيارات في الفندق',
   },
   ourSpecialDay: {
     en: 'Our Special Day',
@@ -46,8 +50,8 @@ export const translations = {
     ar: '٦:٠٠ مساءً',
   },
   location: {
-    en: 'Helnan Palestine Hotel - Montaza',
-    ar: 'فندق هلنان فلسطين - المنتزه',
+    en: 'Palestine Montaza Hotel',
+    ar: 'فندق فلسطين المنتزه',
   },
   revealTitle: {
     en: 'Reveal',
@@ -126,8 +130,8 @@ export const translations = {
     ar: 'سيقام الاحتفال في',
   },
   venueCity: {
-    en: 'Montaza, Alexandria, Egypt',
-    ar: 'المنتزه، الإسكندرية, مصر',
+    en: 'Alexandria, Egypt',
+    ar: 'الإسكندرية, مصر',
   },
   venueCountry: {
     en: '',
@@ -166,8 +170,20 @@ export const translations = {
     ar: 'البريد الإلكتروني',
   },
   rsvpFormGuests: {
-    en: 'Number of Guests',
-    ar: 'عدد الضيوف',
+    en: 'Status',
+    ar: 'الحالة',
+  },
+  statusSingle: {
+    en: 'Single',
+    ar: 'فرد',
+  },
+  statusCouple: {
+    en: 'Couple',
+    ar: 'زوجين',
+  },
+  partnerName: {
+    en: 'Mr / Mrs name',
+    ar: 'اسم الزوج / الزوجة',
   },
   rsvpFormSubmit: {
     en: 'Submit',
@@ -274,12 +290,12 @@ export const translations = {
     ar: 'اتركوا لنا رسالة',
   },
   drawnMessage: {
-    en: 'Drawn Message',
-    ar: 'رسالة مرسومة',
+    en: 'Draw',
+    ar: 'رسم',
   },
   writtenMessage: {
-    en: 'Written Message',
-    ar: 'رسالة مكتوبة',
+    en: 'Text',
+    ar: 'نص',
   },
   writeYourMessage: {
     en: 'Write your message here...',

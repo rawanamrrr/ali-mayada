@@ -336,11 +336,8 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
   return (
     <div className="min-h-[80vh] bg-transparent overflow-visible pt-0 pb-0">
       {/* Hero Section - Redesigned for exact match with VideoIntro container */}
-      <motion.section
+      <section
         className="relative w-full h-[100svh] overflow-hidden bg-black"
-        initial="hidden"
-        animate="visible"
-        variants={fastStaggerContainer}
       >
         <div className="absolute inset-0 opacity-100">
           <div className="relative w-full h-full">
@@ -393,7 +390,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
             </motion.div>
           </motion.div>
         </div>
-      </motion.section>
+      </section>
 
       <SectionDivider variant="reveal" />
 
@@ -484,7 +481,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
               className="font-serif text-4xl md:text-6xl text-[#661314] mb-6 tracking-tight"
               variants={slideUp}
             >
-              Helnan Palestine Hotel
+               Palestine Montaza Hotel
             </motion.h2>
 
             <motion.div
@@ -539,7 +536,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
               {t('timelineTitle')}
             </h2>
             <p
-              className={`font-serif font-bold text-[#661314]/60 text-sm md:text-base leading-[1.6] ${
+              className={`font-serif font-bold text-[#661314]/60 text-sm md:text-base leading-[1.6] lining-nums ${
                 language === 'ar' ? '' : 'tracking-widest uppercase'
               }`}
             >
@@ -724,10 +721,10 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
           </motion.div>
 
           <motion.div
-            className="relative w-full max-w-[520px]"
+            className="relative w-full max-w-[540px]"
             variants={scaleIn}
           >
-            <div className="relative w-full aspect-[3/4] md:aspect-[3/4]">
+            <div className="relative w-full aspect-[2.9/4] md:aspect-[3/4]">
               <Image
                 src="/notes-pic.png"
                 alt="Notes Frame"
@@ -735,8 +732,8 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                 className="object-contain"
               />
 
-              <div className="absolute inset-0 flex flex-col px-10 md:px-16 py-12 md:py-16">
-                <div className="text-center mt-6 md:mt-5">
+              <div className="absolute inset-0 flex flex-col px-10 md:px-16 py-8 md:py-12">
+                <div className="text-center mt-14 md:mt-14">
                   <p
                     className={`text-[14px] md:text-xs text-[#661314]/75 ${
                       language === 'ar' ? '' : 'uppercase tracking-[0.55em]'
@@ -747,7 +744,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                   <div className="mt-5 w-24 h-px bg-gradient-to-r from-transparent via-[#661314]/30 to-transparent mx-auto" />
                 </div>
 
-                <div className="mt-8 flex-1 flex flex-col justify-center gap-8 text-center">
+                <div className="mt-0 flex-1 flex flex-col justify-center gap-8 text-center">
                   <div className="flex flex-col items-center">
                     <div className="w-4 h-4 relative mb-4">
                       <div className="absolute inset-0 rotate-45 border border-[#661314]/35 bg-transparent rounded-[2px]" />
@@ -758,8 +755,6 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                     </p>
                   </div>
 
-                  <div className="w-28 h-px bg-gradient-to-r from-transparent via-[#661314]/15 to-transparent mx-auto" />
-
                   <div className="flex flex-col items-center">
                     <div className="w-4 h-4 relative mb-4">
                       <div className="absolute inset-0 rotate-45 border border-[#661314]/35 bg-transparent rounded-[2px]" />
@@ -767,6 +762,16 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                     </div>
                     <p className="font-serif text-[12px] md:text-sm text-[#661314]/85 leading-snug max-w-[46ch]">
                       {t('parkGarageNote')}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col items-center">
+                    <div className="w-4 h-4 relative mb-4">
+                      <div className="absolute inset-0 rotate-45 border border-[#661314]/35 bg-transparent rounded-[2px]" />
+                      <div className="absolute inset-0 rotate-45 bg-[#661314]/10 blur-[2px] rounded-[2px]" />
+                    </div>
+                    <p className="font-serif text-[12px] md:text-sm text-[#661314]/85 leading-snug max-w-[46ch]">
+                      {t('montazahGardensNote')}
                     </p>
                   </div>
                 </div>

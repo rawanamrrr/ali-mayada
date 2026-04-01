@@ -9,13 +9,13 @@ export default function RSVPSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [name, setName] = useState('')
   const [attending, setAttending] = useState<'yes' | 'no' | ''>('')
-  const [guests, setGuests] = useState('')
-  const [guestNames, setGuestNames] = useState<string[]>([''])
+  const [status, setStatus] = useState<'single' | 'couple' | ''>('')
+  const [partnerName, setPartnerName] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [message, setMessage] = useState({ text: '', type: '' as 'success' | 'error' | 'info' | '' })
   
   // Message Section States
-  const [messageType, setMessageType] = useState<'drawn' | 'written'>('drawn')
+  const [messageType, setMessageType] = useState<'drawn' | 'written'>('written')
   const [writtenText, setWrittenText] = useState('')
   const [isDrawing, setIsDrawing] = useState(false)
   const [currentColor, setCurrentColor] = useState('#000000')
@@ -197,22 +197,22 @@ export default function RSVPSection() {
     img.src = newHistory[newHistory.length - 1]
   }
 
-  const handleGuestsChange = (value: string) => {
-    setGuests(value)
-    const count = parseInt(value, 10) || 0
-    setGuestNames(prev => {
-      const next = [...prev]
-      while (next.length < count) next.push('')
-      next.length = count
-      return next
-    })
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!name.trim() || !attending) {
       setMessage({ text: t('rsvpError'), type: 'error' })
       return
+    }
+
+    if (attending === 'yes') {
+      if (!status) {
+        setMessage({ text: t('rsvpError'), type: 'error' })
+        return
+      }
+      if (status === 'couple' && !partnerName.trim()) {
+        setMessage({ text: t('rsvpError'), type: 'error' })
+        return
+      }
     }
 
     setIsSubmitting(true)
@@ -222,10 +222,10 @@ export default function RSVPSection() {
       const formData = new FormData()
       formData.append('name', name.trim())
       formData.append('attending', attending)
-      formData.append('guests', attending === 'yes' ? guests : '0')
+      formData.append('guests', attending === 'yes' ? (status === 'couple' ? '2' : '1') : '0')
       
-      if (attending === 'yes') {
-        formData.append('guestNames', guestNames.join(', '))
+      if (attending === 'yes' && status === 'couple') {
+        formData.append('guestNames', partnerName.trim())
       }
 
       // Handle optional message
@@ -241,7 +241,7 @@ export default function RSVPSection() {
 
       if (data.success) {
         setMessage({ text: t('rsvpSuccess'), type: 'success' })
-        setName(''); setAttending(''); setGuests('2'); setGuestNames(['']); setWrittenText(''); clearCanvas()
+        setName(''); setAttending(''); setStatus(''); setPartnerName(''); setWrittenText(''); clearCanvas()
       } else {
         throw new Error(data.message)
       }
@@ -310,28 +310,34 @@ export default function RSVPSection() {
             {attending === 'yes' && (
               <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-[#661314] mb-2 font-serif">{t('rsvpFormGuests')}</label>
-                  <select
-                    value={guests}
-                    onChange={(e) => handleGuestsChange(e.target.value)}
-                    className="w-full px-4 py-3 bg-transparent border border-[#661314]/30 rounded-lg font-serif outline-none"
-                  >
-                    {[1,2].map(n => <option key={n} value={n}>{n} {n === 1 ? t('guestSingular') : t('guestPlural')}</option>)}
-                  </select>
+                  <label className="block text-sm font-medium text-[#661314] mb-3 font-serif">{t('rsvpFormGuests')}</label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                      type="button"
+                      onClick={() => { setStatus('single'); setPartnerName('') }}
+                      className={`py-2 rounded-lg border font-serif transition-all ${status === 'single' ? 'bg-[#661314] text-white' : 'text-[#661314] border-[#661314]/30'}`}
+                    >
+                      {t('statusSingle')}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setStatus('couple')}
+                      className={`py-2 rounded-lg border font-serif transition-all ${status === 'couple' ? 'bg-[#661314] text-white' : 'text-[#661314] border-[#661314]/30'}`}
+                    >
+                      {t('statusCouple')}
+                    </button>
+                  </div>
                 </div>
-                {guestNames.map((gn, i) => (
+                {status === 'couple' && (
                   <input
-                    key={i}
                     type="text"
-                    value={gn}
-                    onChange={(e) => {
-                      const next = [...guestNames]; next[i] = e.target.value; setGuestNames(next)
-                    }}
-                    placeholder={`${t('guestSingular')} ${i + 1}`}
+                    value={partnerName}
+                    onChange={(e) => setPartnerName(e.target.value)}
+                    placeholder={t('partnerName')}
                     className="w-full px-4 py-3 bg-transparent border border-[#661314]/30 rounded-lg font-serif outline-none"
                     required
                   />
-                ))}
+                )}
               </motion.div>
             )}
 
@@ -342,21 +348,29 @@ export default function RSVPSection() {
               <div className="flex gap-4 mb-4">
                 <button
                   type="button"
-                  onClick={() => setMessageType('drawn')}
-                  className={`flex-1 py-2 text-xs rounded-lg border font-serif transition-all ${messageType === 'drawn' ? 'bg-[#661314] text-white' : 'text-[#661314] border-[#661314]/30'}`}
-                >
-                  {t('drawnMessage')}
-                </button>
-                <button
-                  type="button"
                   onClick={() => setMessageType('written')}
                   className={`flex-1 py-2 text-xs rounded-lg border font-serif transition-all ${messageType === 'written' ? 'bg-[#661314] text-white' : 'text-[#661314] border-[#661314]/30'}`}
                 >
                   {t('writtenMessage')}
                 </button>
+                <button
+                  type="button"
+                  onClick={() => setMessageType('drawn')}
+                  className={`flex-1 py-2 text-xs rounded-lg border font-serif transition-all ${messageType === 'drawn' ? 'bg-[#661314] text-white' : 'text-[#661314] border-[#661314]/30'}`}
+                >
+                  {t('drawnMessage')}
+                </button>
               </div>
 
-              {messageType === 'drawn' ? (
+              {messageType === 'written' ? (
+                <textarea
+                  value={writtenText}
+                  onChange={(e) => setWrittenText(e.target.value)}
+                  placeholder={t('writeYourMessage')}
+                  className="w-full px-4 py-3 bg-transparent border border-[#661314]/30 rounded-lg font-serif outline-none resize-none"
+                  rows={4}
+                />
+              ) : (
                 <div className="space-y-4">
                   <div className="flex justify-center gap-2 mb-2">
                     {penColors.map(p => (
@@ -407,14 +421,6 @@ export default function RSVPSection() {
                     <button type="button" onClick={clearCanvas} className="flex-1 py-2 text-xs border border-[#661314]/30 rounded-lg font-serif">{t('clearDrawing')}</button>
                   </div>
                 </div>
-              ) : (
-                <textarea
-                  value={writtenText}
-                  onChange={(e) => setWrittenText(e.target.value)}
-                  placeholder={t('writeYourMessage')}
-                  className="w-full px-4 py-3 bg-transparent border border-[#661314]/30 rounded-lg font-serif outline-none resize-none"
-                  rows={4}
-                />
               )}
             </div>
 

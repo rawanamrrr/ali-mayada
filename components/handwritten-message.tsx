@@ -17,7 +17,7 @@ export default function HandwrittenMessage() {
   const [currentColor, setCurrentColor] = useState('#000000');
   const [currentWidth, setCurrentWidth] = useState(3);
   const [history, setHistory] = useState<string[]>([]);
-  const [messageType, setMessageType] = useState<'drawn' | 'written'>('drawn');
+  const [messageType, setMessageType] = useState<'drawn' | 'written'>('written');
   const [writtenText, setWrittenText] = useState('');
   
   const historyRef = useRef(history);
@@ -601,17 +601,6 @@ export default function HandwrittenMessage() {
           <div className="flex gap-4 mb-8 justify-center">
             <button
               type="button"
-              onClick={() => setMessageType('drawn')}
-              className={`flex-1 px-4 py-3 text-sm font-serif rounded-lg transition-all duration-300 border ${
-                messageType === 'drawn'
-                  ? 'bg-[#661314] text-white border-[#661314]'
-                  : 'bg-transparent text-[#661314] border-[#661314]/30 hover:border-[#661314]/60'
-              }`}
-            >
-              {t('drawnMessage')}
-            </button>
-            <button
-              type="button"
               onClick={() => setMessageType('written')}
               className={`flex-1 px-4 py-3 text-sm font-serif rounded-lg transition-all duration-300 border ${
                 messageType === 'written'
@@ -621,7 +610,32 @@ export default function HandwrittenMessage() {
             >
               {t('writtenMessage')}
             </button>
+            <button
+              type="button"
+              onClick={() => setMessageType('drawn')}
+              className={`flex-1 px-4 py-3 text-sm font-serif rounded-lg transition-all duration-300 border ${
+                messageType === 'drawn'
+                  ? 'bg-[#661314] text-white border-[#661314]'
+                  : 'bg-transparent text-[#661314] border-[#661314]/30 hover:border-[#661314]/60'
+              }`}
+            >
+              {t('drawnMessage')}
+            </button>
           </div>
+
+          {/* Written Message Section */}
+          {messageType === 'written' && (
+            <div className="mb-6">
+              <textarea
+                value={writtenText}
+                onChange={(e) => setWrittenText(e.target.value)}
+                placeholder={t('writeYourMessage')}
+                rows={6}
+                className="w-full px-4 py-3 bg-transparent border border-[#661314]/30 rounded-lg focus:outline-none focus:border-[#661314] transition-all font-serif resize-none"
+                required={messageType === 'written'}
+              />
+            </div>
+          )}
 
           {/* Drawn Message Section */}
           {messageType === 'drawn' && (
@@ -690,20 +704,6 @@ export default function HandwrittenMessage() {
                 </div>
               </div>
             </>
-          )}
-
-          {/* Written Message Section */}
-          {messageType === 'written' && (
-            <div className="mb-6">
-              <textarea
-                value={writtenText}
-                onChange={(e) => setWrittenText(e.target.value)}
-                placeholder={t('writeYourMessage')}
-                rows={6}
-                className="w-full px-4 py-3 bg-transparent border border-[#661314]/30 rounded-lg focus:outline-none focus:border-[#661314] transition-all font-serif resize-none"
-                required={messageType === 'written'}
-              />
-            </div>
           )}
 
           <form onSubmit={sendEmail} className="space-y-4">
