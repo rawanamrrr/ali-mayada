@@ -151,9 +151,10 @@ const ScratchToDiscover = ({ onAllRevealed }: ScratchToDiscoverProps) => {
               className="mt-6 relative overflow-visible"
             >
               <h3 className="font-handwritten text-3xl md:text-7xl text-[#661314] drop-shadow-sm whitespace-nowrap leading-[1.4] pt-4 pb-5">
-                <span className="inline-block translate-y-[30px]">
-                  {t('weAreGettingMarried')}
-                </span>
+                <span 
+                  className="inline-block translate-y-[30px]"
+                  dangerouslySetInnerHTML={{ __html: t('weAreGettingMarried') }}
+                />
               </h3>
             </motion.div>
           )}

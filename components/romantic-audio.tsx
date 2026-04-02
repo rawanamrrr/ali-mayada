@@ -185,8 +185,14 @@ export function RomanticAudio() {
     };
 
     const handleBlur = () => {
-      // Some browsers only fire blur when switching tabs
-      pauseIfPlaying();
+      // On mobile, closing the keyboard / blurring an input can trigger window blur
+      // even though the user is still on the page. Delay, then only pause if the
+      // document truly lost focus.
+      window.setTimeout(() => {
+        if (isDocumentHidden()) {
+          pauseIfPlaying();
+        }
+      }, 150);
     };
 
     const handleFreeze = () => {
@@ -203,7 +209,7 @@ export function RomanticAudio() {
       document.addEventListener('pagehide', handlePageHide as EventListener);
       window.addEventListener('pagehide', handlePageHide);
       window.addEventListener('beforeunload', handleBeforeUnload);
-      window.addEventListener('blur', handleBlur);
+      window.addEventListener('blur', handleBlur as EventListener);
     } catch (error) {
       console.error('Error adding pause listeners:', error);
     }
@@ -216,7 +222,7 @@ export function RomanticAudio() {
         document.removeEventListener('pagehide', handlePageHide as EventListener);
         window.removeEventListener('pagehide', handlePageHide);
         window.removeEventListener('beforeunload', handleBeforeUnload);
-        window.removeEventListener('blur', handleBlur);
+        window.removeEventListener('blur', handleBlur as EventListener);
       } catch (error) {
         console.error('Error removing pause listeners:', error);
       }

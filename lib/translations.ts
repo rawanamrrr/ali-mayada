@@ -26,8 +26,8 @@ export const translations = {
     ar: 'أثناء احتفالكم معنا، نرسل قبلة تصبحوا على خير لأطفالكم',
   },
   montazahGardensNote: {
-    en: 'All wedding guests will enjoy complimentary access to Montazah Gardens using a QR code that will be shared, kindly note that only parking fees in the hotel will be charged',
-    ar: 'جميع ضيوف الزفاف سيتمتعون بدخول مجاني لحدائق المنتزه باستخدام كود QR سيتم مشاركته، برجاء العلم أن الرسوم الوحيدة ستكون رسوم ركن السيارات في الفندق',
+    en: "All wedding guests will enjoy complimentary\naccess to Montazah Gardens using a QR code\nthat will be shared, kindly note that only\nparking fees in the hotel will be charged",
+    ar: "جميع ضيوف الزفاف سيتمتعون بدخول مجاني\nلحدائق المنتزه باستخدام كود QR سيتم مشاركته\nبرجاء العلم أن الرسوم الوحيدة ستكون\nرسوم ركن السيارات في الفندق",
   },
   ourSpecialDay: {
     en: 'Our Special Day',
@@ -59,7 +59,7 @@ export const translations = {
   },
   revealInstruction: {
     en: 'SCRATCH FOR THE DATE',
-    ar: 'امسح لاكتشاف التاريخ',
+    ar: 'خربش لاكتشاف التاريخ',
   },
   revealDayLabel: {
     en: 'Day',
@@ -79,7 +79,7 @@ export const translations = {
   },
   weAreGettingMarried: {
     en: "We're Getting Married!",
-    ar: 'نحن نتزوج',
+    ar: 'نحن سوف نتزوج <span style="font-family: serif; font-weight: bold;">!</span>',
   },
   countdownTitle: {
     en: 'Countdown',

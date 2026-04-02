@@ -567,17 +567,17 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                   <div
                     className={`flex flex-col justify-center ${
                       isRTL
-                        ? 'pl-8 md:pl-12 text-left items-end'
-                        : 'pr-8 md:pr-12 text-right items-end'
+                        ? 'pl-0 md:pl-0 text-center items-center translate-x-1 md:translate-x-2'
+                        : 'pr-0 md:pr-0 text-center items-center translate-x-1 md:translate-x-2'
                     }`}
                   >
                     {isLeft ? (
                       <>
-                        <div className="font-serif text-sm md:text-base font-bold tracking-[0.1em] text-[#661314]">
+                        <div className="font-serif text-base md:text-lg font-extrabold tracking-[0.1em] text-[#661314]">
                           {item.time}
                         </div>
                         <div
-                          className={`font-serif text-[9px] md:text-[10px] text-[#661314]/75 font-bold mt-0.5 leading-[1.5] ${
+                          className={`font-serif text-xs md:text-sm text-[#661314]/75 font-extrabold mt-1 leading-[1.5] ${
                             isRTL ? '' : 'tracking-[0.2em] uppercase'
                           }`}
                         >
@@ -599,17 +599,17 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                   <div
                     className={`flex flex-col justify-center ${
                       isRTL
-                        ? 'pr-8 md:pr-12 text-right items-start'
-                        : 'pl-8 md:pl-12 text-left items-start'
+                        ? 'pr-0 md:pr-0 text-center items-center -translate-x-1 md:-translate-x-2'
+                        : 'pl-0 md:pl-0 text-center items-center -translate-x-1 md:-translate-x-2'
                     }`}
                   >
                     {!isLeft ? (
                       <>
-                        <div className="font-serif text-sm md:text-base font-bold tracking-[0.1em] text-[#661314]">
+                        <div className="font-serif text-base md:text-lg font-extrabold tracking-[0.1em] text-[#661314]">
                           {item.time}
                         </div>
                         <div
-                          className={`font-serif text-[9px] md:text-[10px] text-[#661314]/75 font-bold mt-0.5 leading-[1.5] ${
+                          className={`font-serif text-xs md:text-sm text-[#661314]/75 font-extrabold mt-1 leading-[1.5] ${
                             isRTL ? '' : 'tracking-[0.2em] uppercase'
                           }`}
                         >
@@ -706,7 +706,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
       <SectionDivider variant="notes" />
 
       <motion.section
-        className="relative py-4 px-4 md:py-6 bg-transparent overflow-visible"
+        className="relative py-4 px-0 md:px-4 md:py-6 bg-transparent overflow-visible"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
@@ -721,10 +721,10 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
           </motion.div>
 
           <motion.div
-            className="relative w-full max-w-[540px]"
+            className="relative w-full max-w-[720px] md:max-w-[820px]"
             variants={scaleIn}
           >
-            <div className="relative w-full aspect-[2.9/4] md:aspect-[3/4]">
+            <div className="relative w-full aspect-[2.9/4] md:aspect-[3/4.2]">
               <Image
                 src="/notes-pic.png"
                 alt="Notes Frame"
@@ -733,9 +733,9 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
               />
 
               <div className="absolute inset-0 flex flex-col px-10 md:px-16 py-8 md:py-12">
-                <div className="text-center mt-14 md:mt-14">
+                <div className="text-center mt-16 md:mt-18">
                   <p
-                    className={`text-[14px] md:text-xs text-[#661314]/75 ${
+                    className={`text-[16px] md:text-sm font-bold text-[#661314]/75 ${
                       language === 'ar' ? '' : 'uppercase tracking-[0.55em]'
                     }`}
                   >
@@ -744,33 +744,29 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                   <div className="mt-5 w-24 h-px bg-gradient-to-r from-transparent via-[#661314]/30 to-transparent mx-auto" />
                 </div>
 
-                <div className="mt-0 flex-1 flex flex-col justify-center gap-8 text-center">
+                <div className="mt-4 flex-1 flex flex-col justify-center gap-10 text-center -translate-y-8">
                   <div className="flex flex-col items-center">
-                    <div className="w-4 h-4 relative mb-4">
-                      <div className="absolute inset-0 rotate-45 border border-[#661314]/35 bg-transparent rounded-[2px]" />
-                      <div className="absolute inset-0 rotate-45 bg-[#661314]/10 blur-[2px] rounded-[2px]" />
-                    </div>
-                    <p className="font-serif text-[13px] md:text-base text-[#661314]/85 italic leading-relaxed max-w-[32ch]">
-                      {t('kidsNotAllowed')}
-                    </p>
-                  </div>
-
-                  <div className="flex flex-col items-center">
-                    <div className="w-4 h-4 relative mb-4">
-                      <div className="absolute inset-0 rotate-45 border border-[#661314]/35 bg-transparent rounded-[2px]" />
-                      <div className="absolute inset-0 rotate-45 bg-[#661314]/10 blur-[2px] rounded-[2px]" />
-                    </div>
-                    <p className="font-serif text-[12px] md:text-sm text-[#661314]/85 leading-snug max-w-[46ch]">
+                    <p className="font-serif text-[15px] md:text-lg font-bold text-[#661314]/90 italic leading-relaxed max-w-[32ch]">
                       {t('parkGarageNote')}
                     </p>
                   </div>
 
                   <div className="flex flex-col items-center">
-                    <div className="w-4 h-4 relative mb-4">
+                    <div className="w-5 h-5 relative mb-4">
                       <div className="absolute inset-0 rotate-45 border border-[#661314]/35 bg-transparent rounded-[2px]" />
                       <div className="absolute inset-0 rotate-45 bg-[#661314]/10 blur-[2px] rounded-[2px]" />
                     </div>
-                    <p className="font-serif text-[12px] md:text-sm text-[#661314]/85 leading-snug max-w-[46ch]">
+                    <p className="font-serif text-[14px] md:text-base font-bold text-[#661314]/90 leading-snug max-w-[46ch]">
+                      {t('kidsNotAllowed')}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col items-center">
+                    <div className="w-5 h-5 relative mb-4">
+                      <div className="absolute inset-0 rotate-45 border border-[#661314]/35 bg-transparent rounded-[2px]" />
+                      <div className="absolute inset-0 rotate-45 bg-[#661314]/10 blur-[2px] rounded-[2px]" />
+                    </div>
+                    <p className="font-serif text-[14px] md:text-base font-bold text-[#661314]/90 leading-snug max-w-[46ch] whitespace-pre-line">
                       {t('montazahGardensNote')}
                     </p>
                   </div>
