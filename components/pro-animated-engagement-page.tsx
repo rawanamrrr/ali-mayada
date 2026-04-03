@@ -232,6 +232,23 @@ const SectionDivider = ({ variant }: { variant: SectionDividerVariant }) => {
   )
 }
 
+const AnimatedRedHeart = ({ className = "" }: { className?: string }) => {
+  return (
+    <motion.span
+      className={`text-3xl text-[#661314] drop-shadow-lg ${className}`}
+      animate={{ scale: [1, 1.15, 1] }}
+      transition={{
+        duration: 2,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }}
+      style={{ fontFamily: 'Arial, sans-serif' }}
+    >
+      ♥
+    </motion.span>
+  )
+}
+
 interface ProAnimatedEngagementPageProps {
   onImageLoad?: () => void;
   introFinished?: boolean;
@@ -425,8 +442,9 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
               />
             </div>
 
-            <p className="font-handwritten text-3xl md:text-4xl text-[#661314]/80 mt-4 leading-[1.2]">
-              {t('countdownSubtitle')}
+            <p className="font-handwritten text-3xl md:text-4xl text-[#661314]/80 mt-4 leading-[1.2] inline-flex items-center justify-center gap-3">
+              <span>{t('countdownSubtitle')}</span>
+              <AnimatedRedHeart className="-translate-y-1 text-4xl" />
             </p>
           </div>
         </section>
@@ -744,7 +762,20 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                   <div className="mt-5 w-24 h-px bg-gradient-to-r from-transparent via-[#661314]/30 to-transparent mx-auto" />
                 </div>
 
-                <div className="mt-4 flex-1 flex flex-col justify-center gap-10 text-center -translate-y-8">
+                <div className="mt-4 flex-1 flex flex-col justify-center gap-6 text-center -translate-y-8">
+                  <div className="flex flex-col items-center">
+                    <p className="font-serif text-[14px] md:text-base font-bold text-[#661314]/90 leading-snug max-w-[46ch]">
+                      {t('kidsNotAllowed')}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col items-center">
+                    <div className="w-5 h-5 relative">
+                      <div className="absolute inset-0 rotate-45 border border-[#661314]/35 bg-transparent rounded-[2px]" />
+                      <div className="absolute inset-0 rotate-45 bg-[#661314]/10 blur-[2px] rounded-[2px]" />
+                    </div>
+                  </div>
+
                   <div className="flex flex-col items-center">
                     <p className="font-serif text-[15px] md:text-lg font-bold text-[#661314]/90 italic leading-relaxed max-w-[32ch]">
                       {t('parkGarageNote')}
@@ -752,20 +783,13 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                   </div>
 
                   <div className="flex flex-col items-center">
-                    <div className="w-5 h-5 relative mb-4">
+                    <div className="w-5 h-5 relative">
                       <div className="absolute inset-0 rotate-45 border border-[#661314]/35 bg-transparent rounded-[2px]" />
                       <div className="absolute inset-0 rotate-45 bg-[#661314]/10 blur-[2px] rounded-[2px]" />
                     </div>
-                    <p className="font-serif text-[14px] md:text-base font-bold text-[#661314]/90 leading-snug max-w-[46ch]">
-                      {t('kidsNotAllowed')}
-                    </p>
                   </div>
 
                   <div className="flex flex-col items-center">
-                    <div className="w-5 h-5 relative mb-4">
-                      <div className="absolute inset-0 rotate-45 border border-[#661314]/35 bg-transparent rounded-[2px]" />
-                      <div className="absolute inset-0 rotate-45 bg-[#661314]/10 blur-[2px] rounded-[2px]" />
-                    </div>
                     <p className="font-serif text-[14px] md:text-base font-bold text-[#661314]/90 leading-snug max-w-[46ch] whitespace-pre-line">
                       {t('montazahGardensNote')}
                     </p>
@@ -794,18 +818,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
           </motion.p>
           <div className="flex items-center justify-center gap-6 mb-8">
             <div className="w-24 h-px bg-gradient-to-r from-transparent via-[#661314] to-[#661314]" />
-            <motion.span
-              className="text-3xl text-[#661314] drop-shadow-lg"
-              animate={{ scale: [1, 1.15, 1] }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              style={{ fontFamily: 'Arial, sans-serif' }}
-            >
-              ♥
-            </motion.span>
+            <AnimatedRedHeart />
             <div className="w-24 h-px bg-gradient-to-l from-transparent via-[#661314] to-[#661314]" />
           </div>
           <div className="flex items-center justify-center gap-3 opacity-60">

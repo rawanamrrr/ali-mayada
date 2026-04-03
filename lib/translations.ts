@@ -23,7 +23,7 @@ export const translations = {
   },
   parkGarageNote: {
     en: 'As you celebrate with us, we send a goodnight kiss to your kids',
-    ar: 'أثناء احتفالكم معنا، نرسل قبلة تصبحوا على خير لأطفالكم',
+    ar: 'أثناء احتفالكم معنا، نرسل قبلة قبل النوم لأطفالكم',
   },
   montazahGardensNote: {
     en: "All wedding guests will enjoy complimentary\naccess to Montazah Gardens using a QR code\nthat will be shared, kindly note that only\nparking fees in the hotel will be charged",
