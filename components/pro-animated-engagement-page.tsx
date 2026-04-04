@@ -777,7 +777,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                   </div>
 
                   <div className="flex flex-col items-center">
-                    <p className="font-serif text-[15px] md:text-lg font-bold text-[#661314]/90 italic leading-relaxed max-w-[32ch]">
+                    <p className="font-serif text-[15px] md:text-lg font-bold text-[#661314]/90 italic leading-relaxed max-w-[32ch] whitespace-pre-line">
                       {t('parkGarageNote')}
                     </p>
                   </div>
