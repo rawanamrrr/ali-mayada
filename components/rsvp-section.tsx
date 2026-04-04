@@ -220,6 +220,7 @@ export default function RSVPSection() {
 
     try {
       const formData = new FormData()
+      formData.append('type', 'rsvp')
       formData.append('name', name.trim())
       formData.append('attending', attending)
       formData.append('guests', attending === 'yes' ? (status === 'couple' ? '2' : '1') : '0')
@@ -231,9 +232,9 @@ export default function RSVPSection() {
       // Handle optional message
       if (messageType === 'drawn' && canvasRef.current) {
         const blob = await new Promise<Blob | null>(res => canvasRef.current?.toBlob(res, 'image/png'))
-        if (blob) formData.append('image', blob, 'drawing.png')
+        if (blob) formData.append('imageFile', blob, 'drawing.png')
       } else if (writtenText.trim()) {
-        formData.append('message', writtenText.trim())
+        formData.append('textMessage', writtenText.trim())
       }
 
       const response = await fetch('/api/send-email', { method: 'POST', body: formData })

@@ -28,7 +28,7 @@ export async function sendEmail(to: string, subject: string, html: string, attac
     });
 
     const mailOptions = {
-      from: `"Engagement Website" <${process.env.GMAIL_USER}>`,
+      from: `"Wedding Website" <${process.env.GMAIL_USER}>`,
       to,
       subject,
       html,

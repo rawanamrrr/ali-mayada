@@ -506,7 +506,7 @@ export default function HandwrittenMessage() {
           throw new Error('Failed to create image from drawing');
         }
 
-        formData.append('message', 'A new drawn message from the engagement website');
+        formData.append('message', 'A new drawn message from the Wedding website');
         formData.append('image', blob, 'drawing.png');
       } else {
         // Send text message for written messages
