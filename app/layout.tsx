@@ -28,10 +28,10 @@ export const metadata: Metadata = {
     description: "Join us in celebrating Ali & Mayada's wedding",
     images: [
       {
-        url: "https://ali-mayada.digitivaa.com/invitation-design.jpg",
-        width: 768,
-        height: 1365,
-        alt: "Ali & Mayada Wedding Invitation",
+        url: "https://ali-mayada.digitivaa.com/Preview.webp",
+        width: 1200,
+        height: 630,
+        alt: "Ali & Mayada Wedding Celebration",
       },
     ],
   },
@@ -39,11 +39,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Ali & Mayada - Wedding Celebration",
     description: "Join us in celebrating Ali & Mayada's wedding",
-    images: ["https://ali-mayada.digitivaa.com/invitation-design.jpg"],
+    images: ["https://ali-mayada.digitivaa.com/Preview.webp"],
   },
   icons: {
-    icon: "/invitation-design.jpg",
-    apple: "/invitation-design.jpg",
+    icon: "/Preview.webp",
+    apple: "/Preview.webp",
   },
 }
 
@@ -62,18 +62,18 @@ export default function RootLayout({
         <meta property="og:description" content="Join us in celebrating Ali & Mayada's wedding" />
         <meta
           property="og:image"
-          content="https://ali-mayada.digitivaa.com/invitation-design.jpg"
+          content="https://ali-mayada.digitivaa.com/Preview.webp"
         />
-        <meta property="og:image:width" content="768" />
-        <meta property="og:image:height" content="1365" />
-        <meta property="og:image:alt" content="Ali & Mayada Wedding Invitation" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Ali & Mayada Wedding Celebration" />
         {/* Removed invalid fb:app_id since it's not needed for basic sharing */}
 
         {/* Twitter Card tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Ali & Mayada - Wedding Celebration" />
         <meta name="twitter:description" content="Join us in celebrating Ali & Mayada's wedding" />
-        <meta name="twitter:image" content="https://ali-mayada.digitivaa.com/invitation-design.jpg" />
+        <meta name="twitter:image" content="https://ali-mayada.digitivaa.com/Preview.webp" />
 
         {/* Preload background image */}
         <link
@@ -85,9 +85,9 @@ export default function RootLayout({
         {/* Preload PNG with high priority to eliminate lag on Netlify */}
         <link
           rel="preload"
-          href="/invitation-design.jpg"
+          href="/Preview.webp"
           as="image"
-          type="image/png"
+          type="image/webp"
         />
         {/* Preload video and poster for faster intro */}
         <link
