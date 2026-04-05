@@ -65,7 +65,7 @@ export default function VideoIntro({ onComplete, onSkip }: VideoIntroProps) {
           <motion.img
             src="/letters.png"
             alt={t('tapToContinue')}
-            className="w-50 md:w-56 max-w-[80vw] h-auto drop-shadow-[0_8px_24px_rgba(0,0,0,0.7)]"
+            className="w-70 md:w-68 max-w-[80vw] h-auto drop-shadow-[0_8px_24px_rgba(0,0,0,0.7)]"
             onLoad={() => setIsLettersReady(true)}
             animate={{
               opacity: [0.85, 1, 0.85],

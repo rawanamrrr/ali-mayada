@@ -803,7 +803,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
 
       {/* Footer */}
       <motion.footer
-        className="relative pb-24 text-center bg-transparent"
+        className="relative pb-0 text-center bg-transparent"
         variants={fadeIn}
       >
         <div className="max-w-3xl mx-auto px-4">
@@ -836,7 +836,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
       </motion.footer>
       {/* Watermark Section */}
       <motion.div
-        className="flex justify-center pb-12 -mt-16"
+        className="flex justify-center pb-0 -mt-0"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -844,9 +844,9 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
         <Image
           src="/letters.png"
           alt="Watermark"
-          width={150}
-          height={150}
-          className=""
+          width={300}
+          height={300}
+          className="mix-blend-multiply"
         />
       </motion.div>
 
