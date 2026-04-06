@@ -22,7 +22,7 @@ export const translations = {
     ar: 'اللبس الرسمي: ملابس أنيقة',
   },
   parkGarageNote: {
-    en: 'As you celebrate with us , we send \nA Goodnight kiss to your kids',
+    en: 'While you celebrate with us , we send \nA Goodnight kiss to your kids',
     ar: 'أثناء احتفالكم معنا،\nنرسل قبلة قبل النوم لأطفالكم',
   },
   montazahGardensNote: {

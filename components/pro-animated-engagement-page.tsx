@@ -444,7 +444,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
 
             <p className="font-handwritten text-3xl md:text-4xl text-[#661314]/80 mt-4 leading-[1.2] inline-flex items-center justify-center gap-3">
               <span>{t('countdownSubtitle')}</span>
-              <AnimatedRedHeart className="-translate-y-0.5 text-2xl" filled={false} />
+              <AnimatedRedHeart className="-translate-y-0.5 text-xl" filled={false} />
             </p>
           </div>
         </section>
