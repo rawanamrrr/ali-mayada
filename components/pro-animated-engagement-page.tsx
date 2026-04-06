@@ -232,7 +232,7 @@ const SectionDivider = ({ variant }: { variant: SectionDividerVariant }) => {
   )
 }
 
-const AnimatedRedHeart = ({ className = "" }: { className?: string }) => {
+const AnimatedRedHeart = ({ className = "", filled = true }: { className?: string; filled?: boolean }) => {
   return (
     <motion.span
       className={`text-3xl text-[#661314] drop-shadow-lg ${className}`}
@@ -244,7 +244,7 @@ const AnimatedRedHeart = ({ className = "" }: { className?: string }) => {
       }}
       style={{ fontFamily: 'Arial, sans-serif' }}
     >
-      ♥
+      {filled ? '♥' : '♡'}
     </motion.span>
   )
 }
@@ -444,7 +444,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
 
             <p className="font-handwritten text-3xl md:text-4xl text-[#661314]/80 mt-4 leading-[1.2] inline-flex items-center justify-center gap-3">
               <span>{t('countdownSubtitle')}</span>
-              <AnimatedRedHeart className="-translate-y-1 text-4xl" />
+              <AnimatedRedHeart className="-translate-y-0.5 text-2xl" filled={false} />
             </p>
           </div>
         </section>
@@ -585,8 +585,8 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                   <div
                     className={`flex flex-col justify-center ${
                       isRTL
-                        ? 'pl-0 md:pl-0 text-center items-center translate-x-1 md:translate-x-2'
-                        : 'pr-0 md:pr-0 text-center items-center translate-x-1 md:translate-x-2'
+                        ? 'pl-0 md:pl-0 text-center items-center translate-x-4 md:translate-x-6'
+                        : 'pr-0 md:pr-0 text-center items-center translate-x-4 md:translate-x-6'
                     }`}
                   >
                     {isLeft ? (
@@ -617,8 +617,8 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                   <div
                     className={`flex flex-col justify-center ${
                       isRTL
-                        ? 'pr-0 md:pr-0 text-center items-center -translate-x-1 md:-translate-x-2'
-                        : 'pl-0 md:pl-0 text-center items-center -translate-x-1 md:-translate-x-2'
+                        ? 'pr-0 md:pr-0 text-center items-center -translate-x-4 md:-translate-x-6'
+                        : 'pl-0 md:pl-0 text-center items-center -translate-x-4 md:-translate-x-6'
                     }`}
                   >
                     {!isLeft ? (
@@ -762,9 +762,9 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                   <div className="mt-5 w-24 h-px bg-gradient-to-r from-transparent via-[#661314]/30 to-transparent mx-auto" />
                 </div>
 
-                <div className="mt-4 flex-1 flex flex-col justify-center gap-6 text-center -translate-y-8">
+                <div className="mt-2 flex-1 flex flex-col justify-center gap-5 text-center -translate-y-12 md:-translate-y-16">
                   <div className="flex flex-col items-center">
-                    <p className="font-serif text-[14px] md:text-base font-bold text-[#661314]/90 leading-snug max-w-[46ch]">
+                    <p className="font-serif text-[16px] md:text-lg font-bold text-[#661314]/90 leading-snug max-w-[46ch]">
                       {t('kidsNotAllowed')}
                     </p>
                   </div>
@@ -777,7 +777,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                   </div>
 
                   <div className="flex flex-col items-center">
-                    <p className="font-serif text-[15px] md:text-lg font-bold text-[#661314]/90 italic leading-relaxed max-w-[32ch] whitespace-pre-line">
+                    <p className="font-serif text-[17px] md:text-xl font-bold text-[#661314]/90 italic leading-relaxed max-w-[32ch] whitespace-pre-line">
                       {t('parkGarageNote')}
                     </p>
                   </div>
@@ -790,7 +790,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
                   </div>
 
                   <div className="flex flex-col items-center">
-                    <p className="font-serif text-[14px] md:text-base font-bold text-[#661314]/90 leading-snug max-w-[46ch] whitespace-pre-line">
+                    <p className="font-serif text-[16px] md:text-lg font-bold text-[#661314]/90 leading-snug max-w-[46ch] whitespace-pre-line">
                       {t('montazahGardensNote')}
                     </p>
                   </div>
@@ -800,6 +800,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
           </motion.div>
         </div>
       </motion.section>
+
 
       {/* Footer */}
       <motion.footer
@@ -834,9 +835,9 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
           </div>
         </div>
       </motion.footer>
-      {/* Watermark Section */}
+     {/* Watermark Section */}
       <motion.div
-        className="flex justify-center pb-0 -mt-0"
+        className="flex justify-center pb-0 -mt-24 -mb-16 relative z-0"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -844,9 +845,9 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
         <Image
           src="/letters.png"
           alt="Watermark"
-          width={300}
-          height={300}
-          className="mix-blend-multiply"
+          width={220}
+          height={220}
+          className="mix-blend-multiply opacity-100"
         />
       </motion.div>
 
