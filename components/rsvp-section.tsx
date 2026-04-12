@@ -9,8 +9,6 @@ export default function RSVPSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [name, setName] = useState('')
   const [attending, setAttending] = useState<'yes' | 'no' | ''>('')
-  const [status, setStatus] = useState<'single' | 'couple' | ''>('')
-  const [partnerName, setPartnerName] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [message, setMessage] = useState({ text: '', type: '' as 'success' | 'error' | 'info' | '' })
   
@@ -204,17 +202,6 @@ export default function RSVPSection() {
       return
     }
 
-    if (attending === 'yes') {
-      if (!status) {
-        setMessage({ text: t('rsvpError'), type: 'error' })
-        return
-      }
-      if (status === 'couple' && !partnerName.trim()) {
-        setMessage({ text: t('rsvpError'), type: 'error' })
-        return
-      }
-    }
-
     setIsSubmitting(true)
     setMessage({ text: t('submitting'), type: 'info' })
 
@@ -223,12 +210,7 @@ export default function RSVPSection() {
       formData.append('type', 'rsvp')
       formData.append('name', name.trim())
       formData.append('attending', attending)
-      formData.append('guests', attending === 'yes' ? (status === 'couple' ? '2' : '1') : '0')
       
-      if (attending === 'yes' && status === 'couple') {
-        formData.append('guestNames', partnerName.trim())
-      }
-
       // Handle optional message
       if (messageType === 'drawn' && canvasRef.current) {
         const blob = await new Promise<Blob | null>(res => canvasRef.current?.toBlob(res, 'image/png'))
@@ -242,7 +224,7 @@ export default function RSVPSection() {
 
       if (data.success) {
         setMessage({ text: t('rsvpSuccess'), type: 'success' })
-        setName(''); setAttending(''); setStatus(''); setPartnerName(''); setWrittenText(''); clearCanvas()
+        setName(''); setAttending(''); setWrittenText(''); clearCanvas()
       } else {
         throw new Error(data.message)
       }
@@ -307,40 +289,6 @@ export default function RSVPSection() {
                 </button>
               </div>
             </div>
-
-            {attending === 'yes' && (
-              <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-[#661314] mb-3 font-serif">{t('rsvpFormGuests')}</label>
-                  <div className="grid grid-cols-2 gap-3">
-                    <button
-                      type="button"
-                      onClick={() => { setStatus('single'); setPartnerName('') }}
-                      className={`py-2 rounded-lg border font-serif transition-all ${status === 'single' ? 'bg-[#661314] text-white' : 'text-[#661314] border-[#661314]/30'}`}
-                    >
-                      {t('statusSingle')}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setStatus('couple')}
-                      className={`py-2 rounded-lg border font-serif transition-all ${status === 'couple' ? 'bg-[#661314] text-white' : 'text-[#661314] border-[#661314]/30'}`}
-                    >
-                      {t('statusCouple')}
-                    </button>
-                  </div>
-                </div>
-                {status === 'couple' && (
-                  <input
-                    type="text"
-                    value={partnerName}
-                    onChange={(e) => setPartnerName(e.target.value)}
-                    placeholder={t('partnerName')}
-                    className="w-full px-4 py-3 bg-transparent border border-[#661314]/30 rounded-lg font-serif outline-none"
-                    required
-                  />
-                )}
-              </motion.div>
-            )}
 
             <div className="pt-4 border-t border-[#661314]/10">
               <label className="block text-sm font-medium text-[#661314] mb-4 font-serif">

@@ -15,15 +15,12 @@ export async function POST(request: Request) {
 
     // Handle RSVP submissions
     if (submissionType === 'rsvp') {
-      const guests = formData.get('guests') as string;
-      const attending = (formData.get('attending') as string) || 'yes';
-      const guestNames = (formData.get('guestNames') as string) || '';
       const imageFile = formData.get('imageFile') as File | null;
       const textMessage = formData.get('textMessage') as string | null;
+      const attending = (formData.get('attending') as string) || 'yes';
       const isAttending = attending === 'yes';
-      const guestsNumber = parseInt(guests || '0', 10) || 0;
 
-      if (!name?.trim() || (isAttending && !guests?.trim())) {
+      if (!name?.trim() || !attending) {
         return Response.json(
           { success: false, message: 'Please fill in all fields' },
           { status: 400 }
@@ -66,12 +63,6 @@ export async function POST(request: Request) {
       }
 
       const attendanceStatus = isAttending ? 'Attending' : 'Not attending';
-      const guestsSection = isAttending && guestsNumber > 0
-        ? `<p><strong>Number of Guests:</strong> ${guestsNumber}</p>`
-        : '';
-      const guestNamesSection = isAttending && guestNames.trim()
-        ? `<p><strong>Guest Names:</strong> ${guestNames}</p>`
-        : '';
 
       let rsvpAttachments: any[] = [];
       let drawingSection = '';
@@ -120,8 +111,6 @@ export async function POST(request: Request) {
             <div style="margin: 20px 0; padding: 20px; background: #f9fafb; border-radius: 8px;">
               <p><strong>Name:</strong> ${name}</p>
               <p><strong>Attendance:</strong> ${attendanceStatus}</p>
-              ${guestsSection}
-              ${guestNamesSection}
             </div>
             ${messageSection}
             ${drawingSection}

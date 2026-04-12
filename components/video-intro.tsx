@@ -74,6 +74,18 @@ export default function VideoIntro({ onComplete, onSkip }: VideoIntroProps) {
             }}
             transition={{ duration: 2.0, repeat: Infinity, ease: "easeInOut" }}
           />
+
+          <button
+            type="button"
+            className="pointer-events-auto absolute left-1/2 top-1/2 -translate-x-1/2 translate-y-[150px] md:translate-y-[108px] text-[#efc848] text-4xl md:text-4xl leading-none drop-shadow-[0_6px_18px_rgba(0,0,0,0.65)] mr-7 md:mr-18"
+            style={{ fontFamily: "var(--font-great-vibes)" }}
+            onClick={(e) => {
+              e.stopPropagation()
+              handleVideoClick()
+            }}
+          >
+            Click on me
+          </button>
         </motion.div>
       )}
     </div>

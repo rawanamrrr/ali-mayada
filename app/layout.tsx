@@ -2,7 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
-import { Playfair_Display } from "next/font/google"
+import { Great_Vibes, Playfair_Display } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import { RomanticAudio } from "@/components/romantic-audio"
@@ -13,6 +13,13 @@ import "./globals.css"
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
+  display: "swap",
+})
+
+const greatVibes = Great_Vibes({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-great-vibes",
   display: "swap",
 })
 
@@ -28,7 +35,7 @@ export const metadata: Metadata = {
     description: "Join us in celebrating Ali & Mayada's wedding",
     images: [
       {
-        url: "https://ali-mayada.digitivaa.com/Preview.webp",
+        url: "https://ali-and-mayada.digitivaa.com/Preview.webp",
         width: 1200,
         height: 630,
         alt: "Ali & Mayada Wedding Celebration",
@@ -39,11 +46,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Ali & Mayada - Wedding Celebration",
     description: "Join us in celebrating Ali & Mayada's wedding",
-    images: ["https://ali-mayada.digitivaa.com/Preview.webp"],
+    images: ["https://ali-and-mayada.digitivaa.com/Preview.webp"],
   },
   icons: {
-    icon: "/Preview.webp",
-    apple: "/Preview.webp",
+    icon: "/invitation-design.jpg",
+    apple: "/invitation-design.jpg",
   },
 }
 
@@ -56,13 +63,13 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         {/* ✅ Open Graph tags for Facebook & WhatsApp previews */}
-        <meta property="og:url" content="https://ali-mayada.digitivaa.com/" />
+        <meta property="og:url" content="https://ali-and-mayada.digitivaa.com/" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Ali & Mayada - Wedding Celebration" />
         <meta property="og:description" content="Join us in celebrating Ali & Mayada's wedding" />
         <meta
           property="og:image"
-          content="https://ali-mayada.digitivaa.com/Preview.webp"
+          content="https://ali-and-mayada.digitivaa.com/Preview.webp"
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
@@ -73,7 +80,7 @@ export default function RootLayout({
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Ali & Mayada - Wedding Celebration" />
         <meta name="twitter:description" content="Join us in celebrating Ali & Mayada's wedding" />
-        <meta name="twitter:image" content="https://ali-mayada.digitivaa.com/Preview.webp" />
+        <meta name="twitter:image" content="https://ali-and-mayada.digitivaa.com/Preview.webp" />
 
         {/* Preload background image */}
         <link
@@ -82,7 +89,7 @@ export default function RootLayout({
           as="image"
           type="image/jpeg"
         />
-        {/* Preload PNG with high priority to eliminate lag on Netlify */}
+        {/* Preload Preview image */}
         <link
           rel="preload"
           href="/Preview.webp"
@@ -118,7 +125,7 @@ export default function RootLayout({
           })();
         `}} />
       </head>
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} ${playfair.variable} relative`}>
+      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} ${playfair.variable} ${greatVibes.variable} relative`}>
         <LanguageProvider>
           <Suspense fallback={null}>
             <LanguageToggle />
