@@ -77,14 +77,14 @@ export default function VideoIntro({ onComplete, onSkip }: VideoIntroProps) {
 
           <button
             type="button"
-            className="pointer-events-auto absolute left-1/2 top-1/2 -translate-x-1/2 translate-y-[150px] md:translate-y-[108px] text-[#efc848] text-4xl md:text-4xl leading-none drop-shadow-[0_6px_18px_rgba(0,0,0,0.65)] mr-7 md:mr-18"
-            style={{ fontFamily: "var(--font-great-vibes)" }}
+            className="pointer-events-auto absolute left-[calc(51%-0.75rem)] md:left-[calc(51%-3rem)] top-1/2 -translate-x-1/2 translate-y-[105px] md:translate-y-[95px] text-[#D4AF37] text-3xl md:text-3xl leading-none drop-shadow-[0_6px_18px_rgba(0,0,0,0.65)]"
+            style={{ fontFamily: 'Dancing Script, cursive' }}
             onClick={(e) => {
               e.stopPropagation()
               handleVideoClick()
             }}
           >
-            Click on me
+            Touch me
           </button>
         </motion.div>
       )}

@@ -112,6 +112,14 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap"
           as="style"
         />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap"
+        />
         {/* Mobile Safari viewport height fix */}
         <script dangerouslySetInnerHTML={{__html: `
           (function() {
