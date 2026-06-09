@@ -271,7 +271,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
   const pathY1 = useTransform(scrollYProgress, [0, 0.5], [0, 20])
   const pathY2 = useTransform(scrollYProgress, [0, 0.5], [0, 40])
 
-  const eventDate = new Date("2026-06-06T18:00:00");
+  const eventDate = new Date("2026-06-12T18:00:00");
   const formattedDate = formatDate(eventDate, language);
   const formattedTime = formatTime(eventDate, language);
 
@@ -437,7 +437,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
 
             <div className="mb-12">
               <CountdownTimer 
-                targetDate={new Date("2026-06-06T18:00:00")} 
+                targetDate={new Date("2026-06-12T18:00:00")} 
                 hideNumbers={false}
               />
             </div>
