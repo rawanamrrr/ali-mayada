@@ -437,7 +437,7 @@ export default function ProAnimatedEngagementPage({ onImageLoad, introFinished }
 
             <div className="mb-12">
               <CountdownTimer 
-                targetDate={new Date("2026-06-12T18:00:00")} 
+                targetDate={new Date("2026-06-27T18:00:00")} 
                 hideNumbers={false}
               />
             </div>
